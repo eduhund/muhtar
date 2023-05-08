@@ -12,7 +12,7 @@ function getCollection(name) {
 
 async function start() {
 	await client.connect();
-	log.info("Connected to database successfully");
+	log.info("Connected to database");
 }
 
 module.exports = {

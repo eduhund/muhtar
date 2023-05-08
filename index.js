@@ -4,7 +4,9 @@ const scheduler = require("./src/services/cron/cron");
 
 const express = require("./src/services/express/express");
 const mongo = require("./src/services/mongo/mongo");
+const slack = require("./src/services/slack/slack");
 const { sheets, auth } = require("./src/services/google/google");
+const { updateUsers, updateProjects } = require("./src/processes/processes");
 
 const config = require("./config.json");
 
@@ -554,7 +556,10 @@ async function hourlyCronTick() {
 (async () => {
 	await express.start();
 	await mongo.start();
+	await slack.start();
 	await auth();
+	await updateUsers();
+	await updateProjects();
 	await scheduler.schedule();
 	await updateUsersAndProjects();
 })();
