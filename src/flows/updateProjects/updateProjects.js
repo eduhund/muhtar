@@ -1,36 +1,15 @@
-const DB = require("../../services/mongo/requests");
-const { slack } = require("../../services/slack/slack");
+const { updateProject } = require("../../services/mongo/actions");
+const { getChannels } = require("../../services/slack/actions");
 
 async function updateProjects() {
-	const response = await slack.client.conversations.list({
-		types: "private_channel",
-		exclude_archived: true,
-	});
-	if (!response.ok) {
-		throw new Error("Slack can't get users list");
-	}
+	const channels = await getChannels();
 
-	const channels = response.channels.filter(
+	const projects = channels.filter(
 		(channel) => channel.is_channel && channel.is_private && !channel.is_general
 	);
 
-	for (const channel of channels) {
-		const { id, context_team_id, name, is_archived, purpose } = channel;
-		DB.setOne("channels", {
-			query: {
-				id,
-			},
-			set: {
-				id,
-				team: context_team_id,
-				name,
-				description: purpose.value,
-				isArchived: is_archived || false,
-			},
-			options: {
-				insertNew: true,
-			},
-		});
+	for (const project of projects) {
+		updateProject(project);
 	}
 }
 
