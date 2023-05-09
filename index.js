@@ -6,7 +6,7 @@ const express = require("./src/services/express/express");
 const mongo = require("./src/services/mongo/mongo");
 const slack = require("./src/services/slack/slack");
 const { sheets, auth } = require("./src/services/google/google");
-const { updateUsers, updateProjects } = require("./src/processes/processes");
+const { updateUsers, updateProjects } = require("./src/flows/flows");
 
 const config = require("./config.json");
 
