@@ -8,7 +8,9 @@ function incomingData(data) {
 			username: data?.user_name || data?.user?.username,
 			channelId: data?.channel_id || data?.channel?.id || data?.channel,
 			triggerId: data?.trigger_id,
-			teamId: data?.team_id,
+			teamId: data?.team_id || data?.team?.id,
+			text: data?.text,
+			formData: data?.view?.state?.values,
 		};
 	} catch (e) {
 		log.error("Error with incoming slack data\n", e);

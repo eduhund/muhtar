@@ -1,7 +1,7 @@
 const log = require("../../services/log4js/logger");
 
 const { slack } = require("./slack");
-const { renderModal } = require("../../flows/flows");
+const { renderModal, addTime } = require("../../flows/flows");
 const { incomingData } = require("./prepareData");
 
 function slackListenerRun() {
@@ -15,7 +15,7 @@ function slackListenerRun() {
 	slack.view("timeModal", async ({ body, ack }) => {
 		log.debug("Slack — New view submit: ", body);
 		const data = incomingData(body);
-		//await submitModal(data);
+		await addTime(data);
 		ack();
 	});
 }

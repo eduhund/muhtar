@@ -138,6 +138,15 @@ function timeModal({ triggerId, projects, selectedProject }) {
 	};
 }
 
+function timeSuccess({ userId, projectId }) {
+	return {
+		channel: projectId,
+		user: userId,
+		text: "Спасибо! Я добавил часы к проекту.",
+	};
+}
+
 module.exports = {
 	timeModal,
+	timeSuccess,
 };
