@@ -1,29 +1,23 @@
-const { log } = require("../../services/log4js/logger");
+const log = require("../../services/log4js/logger");
 
 const { slack } = require("./slack");
+const { renderModal } = require("../../flows/flows");
+const { incomingData } = require("./prepareData");
 
-/*
 function slackListenerRun() {
 	slack.command("/time", async ({ payload, ack }) => {
 		log.debug("Slack — New bot command: ", payload);
-		await renderModal(payload);
+		const data = incomingData(payload);
+		await renderModal(data);
 		ack();
 	});
 
-	slack.command("/update", async ({ payload, ack }) => {
-		log.debug("Slack — New bot command: ", payload);
-		const data = await incomingData(payload);
-		await processModals("sDmModal", data);
-		ack();
-	});
-
-	slack.view("timeSubmit", async ({ body, ack }) => {
-		log.debug("Slack — New view submit: ", payload);
-		const data = await incomingData(body);
-		await processModals("sDmSubmit", data);
+	slack.view("timeModal", async ({ body, ack }) => {
+		log.debug("Slack — New view submit: ", body);
+		const data = incomingData(body);
+		//await submitModal(data);
 		ack();
 	});
 }
 
 module.exports = { slackListenerRun };
-*/

@@ -2,13 +2,13 @@ const DB = require("../../requests");
 
 async function updateProject(project) {
 	const { id, context_team_id, name, is_archived, purpose } = project;
-	DB.setOne("channels", {
+	DB.setOne("projects", {
 		query: {
 			id,
 		},
 		set: {
 			id,
-			team: context_team_id,
+			teamId: context_team_id,
 			name,
 			description: purpose.value,
 			isArchived: is_archived || false,

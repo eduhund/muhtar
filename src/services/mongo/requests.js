@@ -20,6 +20,11 @@ function getOptions(returns, options) {
 }
 
 const DB = {
+	insertOne: (collection, data) => {
+		const { query } = data;
+
+		return getCollection(collection).insertOne(query);
+	},
 	getOne: (collection, data) => {
 		const { query, returns = [] } = data;
 

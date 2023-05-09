@@ -9,6 +9,7 @@ const { sheets, auth } = require("./src/services/google/google");
 const { updateUsers, updateProjects } = require("./src/flows/flows");
 
 const config = require("./config.json");
+const { slackListenerRun } = require("./src/services/slack/listener");
 
 let users = {};
 let projects = [];
@@ -557,9 +558,10 @@ async function hourlyCronTick() {
 	await express.start();
 	await mongo.start();
 	await slack.start();
+	slackListenerRun();
 	await auth();
 	await updateUsers();
 	await updateProjects();
 	await scheduler.schedule();
-	await updateUsersAndProjects();
+	//await updateUsersAndProjects();
 })();

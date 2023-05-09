@@ -3,7 +3,9 @@ const { App } = require("@slack/bolt");
 
 const slack = new App({
 	token: process.env.SLACK_TOKEN,
-	signingSecret: process.env.SLACK_S_SECRET,
+	appToken: process.env.SLACK_APP_TOKEN,
+	//signingSecret: process.env.SLACK_S_SECRET,
+	socketMode: true,
 });
 
 async function start() {

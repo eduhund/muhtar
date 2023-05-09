@@ -1,9 +1,11 @@
-const getDBRequest = require("@mg/requests");
-const { sendModal } = require("../../../services/slack/actions/actions");
+const { getProjects } = require("../../services/mongo/actions");
+const { sendModal } = require("../../services/slack/actions");
 
-async function renderModal({ data: { triggerId } }) {
-	const modules = await getDBRequest("getModulesList", {});
-	return sendModal({ triggerId, type: "broadcast", data: { modules } });
+async function renderModal({ triggerId, channelId, teamId }) {
+	const projects = await getProjects({ teamId });
+	const selectedProject =
+		projects.filter((project) => project.id === channelId) || [];
+	return sendModal("timeModal", { triggerId, projects, selectedProject });
 }
 
-module.exports = { renderModal };
+module.exports = renderModal;
