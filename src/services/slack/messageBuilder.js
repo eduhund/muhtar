@@ -19,7 +19,7 @@ function getProjectList(projects) {
 		return {
 			text: {
 				type: "plain_text",
-				text: project?.description || project?.name,
+				text: project?.name || project?.channelName,
 				emoji: true,
 			},
 			value: project?.id,

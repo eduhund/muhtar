@@ -9,8 +9,8 @@ async function updateProject(project) {
 		set: {
 			id,
 			teamId: context_team_id,
-			name,
-			description: purpose.value,
+			channelName: name,
+			name: purpose.value,
 			isArchived: is_archived || false,
 		},
 		options: {
