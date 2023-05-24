@@ -2,6 +2,7 @@ const log = require("../../services/log4js/logger");
 const { updateProject } = require("../../services/mongo/actions");
 const { getChannels } = require("../../services/slack/actions");
 
+// Deprecated
 async function updateProjects() {
 	try {
 		const channels = await getChannels();
