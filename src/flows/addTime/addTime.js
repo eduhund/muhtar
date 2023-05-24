@@ -51,7 +51,6 @@ async function addTime({ userId, teamId, formData }) {
 			formData?.projectBlock?.projectAction?.selected_option?.text?.text;
 		const splitted = String(projectName).split(" | ") || [];
 		const subproject = splitted[1] || null;
-		console.log(subproject);
 		const data = {
 			ts: Date.now(),
 			teamId,
