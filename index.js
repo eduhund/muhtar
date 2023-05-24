@@ -13,7 +13,7 @@ const { slackListenerRun } = require("./src/services/slack/listener");
 	await slack.start();
 	slackListenerRun();
 	await auth();
-	await updateUsers();
+	//await updateUsers();
 	//await updateProjects();
 	await scheduler.schedule();
 })();
