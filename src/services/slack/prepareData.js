@@ -8,7 +8,7 @@ function incomingData(data) {
 			username: data?.user_name || data?.user?.username,
 			channelId: data?.channel_id || data?.channel?.id || data?.channel,
 			triggerId: data?.trigger_id,
-			teamId: data?.team_id || data?.team?.id,
+			teamId: data?.team_id || data?.team?.id || data?.team,
 			text: data?.text,
 			formData: data?.view?.state?.values,
 		};

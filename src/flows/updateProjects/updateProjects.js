@@ -11,8 +11,21 @@ async function updateProjects() {
 				channel.is_channel && channel.is_private && !channel.is_general
 		);
 
-		for (const project of projects) {
-			updateProject(project);
+		for (const {
+			id,
+			context_team_id,
+			name,
+			is_archived,
+			purpose,
+		} of projects) {
+			const data = {
+				id,
+				teamId: context_team_id,
+				channelName: name,
+				name: purpose.value || name,
+				isArchived: is_archived || false,
+			};
+			updateProject(data);
 		}
 	} catch (e) {
 		log.error("Error with updating projects\n", e);
