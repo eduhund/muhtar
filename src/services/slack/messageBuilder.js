@@ -14,17 +14,34 @@ function getHoursList() {
 	return list;
 }
 
-function getProjectList(projects) {
-	return projects.map((project) => {
-		return {
-			text: {
-				type: "plain_text",
-				text: project?.name || project?.channelName,
-				emoji: true,
-			},
-			value: project?.id,
-		};
-	});
+function getProjectList(projects = []) {
+	const projectList = [];
+	for (const project of projects) {
+		const { subprojects, name, channelName } = project;
+		const projectName = name || channelName;
+		if (Array.isArray(subprojects) && subprojects.length > 0) {
+			for (const subproject of subprojects) {
+				projectList.push({
+					text: {
+						type: "plain_text",
+						text: projectName + " | " + subproject,
+						emoji: true,
+					},
+					value: project?.id,
+				});
+			}
+		} else {
+			projectList.push({
+				text: {
+					type: "plain_text",
+					text: projectName,
+					emoji: true,
+				},
+				value: project?.id,
+			});
+		}
+	}
+	return projectList;
 }
 
 function timeModal({ triggerId, projects, selectedProject }) {
