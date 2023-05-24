@@ -15,6 +15,9 @@ async function addTimeOld(data) {
 		const project = await DB.getOne("projects", {
 			query: { id: data.projectId },
 		});
+		const projectName = data.subproject
+			? project.name + " | " + data.subproject
+			: project.name;
 		const record = [
 			[
 				todayForGoogle,
@@ -22,15 +25,15 @@ async function addTimeOld(data) {
 				user.name,
 				data.comment,
 				data.duration / 60,
-				project.name,
+				projectName,
 			],
 		];
 
 		const promises = [
 			postData(record, config.google.tables.general),
-			postData(record, config.google.tables.general, project.name),
+			postData(record, config.google.tables.general, projectName),
 			postData(record, user.sheets),
-			postData(record, user.sheets, project.name),
+			postData(record, user.sheets, projectName),
 		];
 
 		for (const p of promises) {
@@ -44,10 +47,16 @@ async function addTimeOld(data) {
 
 async function addTime({ userId, teamId, formData }) {
 	try {
+		const projectName =
+			formData?.projectBlock?.projectAction?.selected_option?.text?.text;
+		const splitted = String(projectName).split(" | ") || [];
+		const subproject = splitted[1] || null;
+		console.log(subproject);
 		const data = {
 			ts: Date.now(),
 			teamId,
 			projectId: formData?.projectBlock?.projectAction?.selected_option?.value,
+			subproject,
 			userId,
 			date: formData?.dateBlock?.dateAction?.selected_date,
 			duration: formData?.hoursBlock?.hoursAction?.selected_option?.value,
