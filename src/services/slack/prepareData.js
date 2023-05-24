@@ -14,7 +14,8 @@ function incomingData(data) {
 			isDeleted: data?.deleted || false,
 			channelId: data?.channel_id || data?.channel?.id || data?.channel,
 			triggerId: data?.trigger_id,
-			teamId: data?.team_id || data?.team?.id || data?.team,
+			teamId:
+				data?.user?.team_id || data?.team_id || data?.team?.id || data?.team,
 			text: data?.text,
 			formData: data?.view?.state?.values,
 		};
