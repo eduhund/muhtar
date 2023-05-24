@@ -1,7 +1,12 @@
 const log = require("../../services/log4js/logger");
 
 const { slack } = require("./slack");
-const { renderModal, addTime, addProject } = require("../../flows/flows");
+const {
+	renderModal,
+	addTime,
+	addProject,
+	addUser,
+} = require("../../flows/flows");
 const { incomingData } = require("./prepareData");
 
 const botId = process.env.SLACK_BOT_ID;
@@ -28,6 +33,12 @@ function slackListenerRun() {
 		log.debug("Slack — Bot added to new channel: ", event);
 		const data = incomingData(event);
 		await addProject(data);
+	});
+
+	slack.event("team_join", async ({ event }) => {
+		log.debug("Slack — New person inda house: ", event);
+		const data = incomingData(event);
+		await addUser(data);
 	});
 }
 

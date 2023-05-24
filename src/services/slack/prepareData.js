@@ -5,7 +5,13 @@ function incomingData(data) {
 		return {
 			userId:
 				data?.user_id || data?.user?.id || data?.user || data?.message?.user,
-			username: data?.user_name || data?.user?.username,
+			name: data?.user?.profile?.real_name,
+			username:
+				data?.user?.profile?.display_name ||
+				data?.user_name ||
+				data?.user?.username,
+			isAdmin: data?.is_owner || data?.is_admin || false,
+			isDeleted: data?.deleted || false,
 			channelId: data?.channel_id || data?.channel?.id || data?.channel,
 			triggerId: data?.trigger_id,
 			teamId: data?.team_id || data?.team?.id || data?.team,

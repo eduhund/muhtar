@@ -3,6 +3,7 @@ const updateProjects = require("./updateProjects/updateProjects");
 const renderModal = require("./renderModal/renderModal");
 const addTime = require("./addTime/addTime");
 const addProject = require("./addProject/addProject");
+const addUser = require("./addUser/addUser");
 
 module.exports = {
 	updateUsers,
@@ -10,4 +11,5 @@ module.exports = {
 	renderModal,
 	addTime,
 	addProject,
+	addUser,
 };
