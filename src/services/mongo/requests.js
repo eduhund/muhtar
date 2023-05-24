@@ -33,13 +33,15 @@ const DB = {
 		return getCollection(collection).findOne(query, { projection });
 	},
 	setOne: async (collection, data) => {
-		const { query, set, push, returns = [], options = {} } = data;
+		const { query, set, push, pull, returns = [], options = {} } = data;
 
 		const allOptions = getOptions(returns, options);
 
 		const response = await getCollection(collection).findOneAndUpdate(
 			query,
-			(set && { $set: set }) || (push && { $push: push }),
+			(set && { $set: set }) ||
+				(push && { $push: push }) ||
+				(pull && { $pull: pull }),
 			allOptions
 		);
 		return response?.value || null;

@@ -153,10 +153,43 @@ function addToExistProject({ channelId }) {
 	};
 }
 
-function addToNewProject({ channelId, name }) {
+function addNewProject({ channelId, name }) {
 	return {
 		channel: channelId,
 		text: `Всем привет! Теперь мне можно рассказывать про часы на проекте ${name}\n\n А еще вот команды, которые я понимаю:\n/rename %new_name% — переименует проект в списке проектов\n/subprj -add %subprj_name% | -remove %subprj_name% | -list — поможет настроить подпроекты (для более точного учета часов)`,
+	};
+}
+
+function addSubProject({ channelId, userId, subproject }) {
+	return {
+		channel: channelId,
+		user: userId,
+		text: `Отлично! Теперь можно заносить часы в подпроект ${subproject}`,
+	};
+}
+
+function removeSubProject({ channelId, userId, subproject }) {
+	return {
+		channel: channelId,
+		user: userId,
+		text: `Я убрал подпроект ${subproject} из списка. Все уже внесенные часы сохранил.`,
+	};
+}
+
+function subProjectsList({ channelId, userId, subprojects = [] }) {
+	const subprojectString = subprojects.join(", ");
+	return {
+		channel: channelId,
+		user: userId,
+		text: `Сейчас работа кипит по этим подпроектам: ${subprojectString}`,
+	};
+}
+
+function noSubProjects({ channelId, userId, name }) {
+	return {
+		channel: channelId,
+		user: userId,
+		text: `На проекте ${name} нет подпроектов. Все фигачат в одной лодке.`,
 	};
 }
 
@@ -164,5 +197,9 @@ module.exports = {
 	timeModal,
 	timeSuccess,
 	addToExistProject,
-	addToNewProject,
+	addNewProject,
+	addSubProject,
+	removeSubProject,
+	subProjectsList,
+	noSubProjects,
 };

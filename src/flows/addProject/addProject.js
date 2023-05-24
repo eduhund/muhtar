@@ -23,7 +23,7 @@ async function addProject({ channelId, teamId }) {
 			teamId: teamId,
 		};
 		await updateProject(data);
-		await sendMessage("addToNewProject", { channelId, name: data.name });
+		await sendMessage("addNewProject", { channelId, name: data.name });
 	} catch (e) {
 		log.error("Error with adding project info to bot\n", e);
 	}

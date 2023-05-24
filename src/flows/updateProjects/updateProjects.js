@@ -26,7 +26,7 @@ async function updateProjects() {
 				name: purpose.value || name,
 				isArchived: is_archived || false,
 			};
-			updateProject(data);
+			updateProject("set", data);
 		}
 	} catch (e) {
 		log.error("Error with updating projects\n", e);

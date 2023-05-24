@@ -6,6 +6,7 @@ const {
 	addTime,
 	addProject,
 	addUser,
+	setupSubProject,
 } = require("../../flows/flows");
 const { incomingData } = require("./prepareData");
 
@@ -16,6 +17,13 @@ function slackListenerRun() {
 		log.debug("Slack — New bot command: ", payload);
 		const data = incomingData(payload);
 		await renderModal(data);
+		ack();
+	});
+
+	slack.command("/subprj", async ({ payload, ack }) => {
+		log.debug("Slack — New bot command: ", payload);
+		const data = incomingData(payload);
+		await setupSubProject(data);
 		ack();
 	});
 
