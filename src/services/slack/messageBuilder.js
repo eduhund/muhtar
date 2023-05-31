@@ -20,16 +20,16 @@ function getProjectList(projects = []) {
 		const { subprojects, name, channelName } = project;
 		const projectName = name || channelName;
 		if (Array.isArray(subprojects) && subprojects.length > 0) {
-			for (const subproject of subprojects) {
+			subprojects.forEach((subproject, i) => {
 				projectList.push({
 					text: {
 						type: "plain_text",
 						text: projectName + " | " + subproject,
 						emoji: true,
 					},
-					value: project?.id,
+					value: project?.id + "_" + i,
 				});
-			}
+			});
 		} else {
 			projectList.push({
 				text: {
