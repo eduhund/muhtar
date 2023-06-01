@@ -1,6 +1,9 @@
-const { response } = require("express");
 const log = require("../log4js/logger");
 const fetch = require("node-fetch");
+
+function dateOnlyIsoString(date) {
+	return date.toISOString().split("T")[0];
+}
 
 async function getWorkdays() {
 	log.info("Updating workdays calendar...");
