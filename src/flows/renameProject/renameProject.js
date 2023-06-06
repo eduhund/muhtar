@@ -3,7 +3,7 @@ const { getParams } = require("../../utils/commandParams");
 const { sendEphemeral } = require("../../services/slack/actions");
 const { updateProject } = require("../../services/mongo/actions");
 
-async function addTime({ channelId, userId, text }) {
+async function renameProject({ channelId, userId, text }) {
 	try {
 		const { value } = getParams(text);
 		if (!value) {
@@ -25,8 +25,8 @@ async function addTime({ channelId, userId, text }) {
 		});
 		return;
 	} catch (e) {
-		log.error("Error with adding time to project\n", e);
+		log.error("Error with renaming the project\n", e);
 	}
 }
 
-module.exports = addTime;
+module.exports = renameProject;

@@ -10,6 +10,7 @@ const {
 	renameProject,
 } = require("../../flows/flows");
 const { incomingData } = require("./prepareData");
+const getLastTime = require("../../flows/getLastTime/getLastTime");
 
 const botId = process.env.SLACK_BOT_ID;
 
@@ -32,6 +33,13 @@ function slackListenerRun() {
 		log.debug("Slack — New bot command: ", payload);
 		const data = incomingData(payload);
 		await renameProject(data);
+		ack();
+	});
+
+	slack.command("/last_time", async ({ payload, ack }) => {
+		log.debug("Slack — New bot command: ", payload);
+		const data = incomingData(payload);
+		await getLastTime(data);
 		ack();
 	});
 

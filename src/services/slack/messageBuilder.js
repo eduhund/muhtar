@@ -226,6 +226,32 @@ function renameSuccess({ channelId, userId, newName }) {
 	};
 }
 
+function getMyLastTime({ channelId, userId, data }) {
+	const { projectName, date, workDate, duration, comment } = data;
+	return {
+		channel: channelId,
+		user: userId,
+		text: `Последние часы, которые я вижу на проекте ${projectName}, вы занесли ${date} за ${workDate}. Потратили ${duration} часа, а делали вот что:\n${comment}`,
+	};
+}
+
+function getUserLastTime({ channelId, userId, data }) {
+	const { userName, projectName, date, workDate, duration, comment } = data;
+	return {
+		channel: channelId,
+		user: userId,
+		text: `Последние часы, которые я вижу на проекте ${projectName}, ${userName} занес ${date} за ${workDate}. Потратил ${duration} часа, а делал вот что:\n${comment}`,
+	};
+}
+
+function userNoTime({ channelId, userId }) {
+	return {
+		channel: channelId,
+		user: userId,
+		text: `Этот пользователь еще не заносил свои часы. Возможно, ему и не надо.`,
+	};
+}
+
 module.exports = {
 	timeModal,
 	timeSuccess,
@@ -237,4 +263,7 @@ module.exports = {
 	noSubProjects,
 	renameEmpty,
 	renameSuccess,
+	getMyLastTime,
+	getUserLastTime,
+	userNoTime,
 };

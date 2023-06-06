@@ -1,6 +1,6 @@
 const DB = require("../../requests");
 
-async function getProjects({ channelId, teamId }) {
+async function getProjectInfo({ channelId, teamId }) {
 	return DB.getOne("projects", {
 		query: {
 			id: channelId,
@@ -9,4 +9,4 @@ async function getProjects({ channelId, teamId }) {
 	});
 }
 
-module.exports = getProjects;
+module.exports = getProjectInfo;

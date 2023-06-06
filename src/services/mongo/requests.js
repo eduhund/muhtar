@@ -47,8 +47,10 @@ const DB = {
 		return response?.value || null;
 	},
 
-	getMany: async (collection, data) => {
+	getMany: async (collection, data, options = {}) => {
 		const { query, returns = [] } = data;
+
+		const { limit, sort } = options;
 
 		const projection = getProjection(returns);
 
@@ -56,6 +58,8 @@ const DB = {
 			.find(query, {
 				projection,
 			})
+			.limit(limit)
+			.sort({ $natural: -1 })
 			.toArray();
 		return response || [];
 	},
