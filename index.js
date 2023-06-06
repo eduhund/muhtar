@@ -4,7 +4,6 @@ const express = require("./src/services/express/express");
 const mongo = require("./src/services/mongo/mongo");
 const slack = require("./src/services/slack/slack");
 const { auth } = require("./src/services/google/google");
-const { updateUsers, updateProjects } = require("./src/flows/flows");
 const { slackListenerRun } = require("./src/services/slack/listener");
 
 (async () => {
@@ -13,7 +12,5 @@ const { slackListenerRun } = require("./src/services/slack/listener");
 	await slack.start();
 	slackListenerRun();
 	await auth();
-	//await updateUsers();
-	//await updateProjects();
 	await scheduler.schedule();
 })();
