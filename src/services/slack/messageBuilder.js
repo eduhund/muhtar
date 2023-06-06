@@ -173,7 +173,7 @@ function addToExistProject({ channelId }) {
 function addNewProject({ channelId, name }) {
 	return {
 		channel: channelId,
-		text: `Всем привет! Теперь мне можно рассказывать про часы на проекте ${name}\n\n А еще вот команды, которые я понимаю:\n/rename %new_name% — переименует проект в списке проектов\n/subprj -add %subprj_name% | -remove %subprj_name% | -list — поможет настроить подпроекты (для более точного учета часов)`,
+		text: `Всем привет! Теперь мне можно рассказывать про часы на проекте ${name}\n\n А еще вот команды, которые я понимаю:\n/rename [new_name] — переименует проект в списке проектов\n/subprj -add [subprj_name] | -remove [subprj_name] | -list — поможет настроить подпроекты (для более точного учета часов)`,
 	};
 }
 
