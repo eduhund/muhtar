@@ -5,6 +5,7 @@ const addTime = require("./addTime/addTime");
 const addProject = require("./addProject/addProject");
 const addUser = require("./addUser/addUser");
 const setupSubProject = require("./setupSubProject/setupSubProject");
+const renameProject = require("./renameProject/renameProject");
 
 module.exports = {
 	updateUsers,
@@ -14,4 +15,5 @@ module.exports = {
 	addProject,
 	addUser,
 	setupSubProject,
+	renameProject,
 };

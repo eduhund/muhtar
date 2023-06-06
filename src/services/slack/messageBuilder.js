@@ -210,6 +210,22 @@ function noSubProjects({ channelId, userId, name }) {
 	};
 }
 
+function renameEmpty({ channelId, userId }) {
+	return {
+		channel: channelId,
+		user: userId,
+		text: `Я не увидел новое название проекта. Может, плохо искал. Давайте попробуем вместе еще раз?`,
+	};
+}
+
+function renameSuccess({ channelId, userId, newName }) {
+	return {
+		channel: channelId,
+		user: userId,
+		text: `Отлично! Теперь в списке проектов будет написано: ${newName}`,
+	};
+}
+
 module.exports = {
 	timeModal,
 	timeSuccess,
@@ -219,4 +235,6 @@ module.exports = {
 	removeSubProject,
 	subProjectsList,
 	noSubProjects,
+	renameEmpty,
+	renameSuccess,
 };
