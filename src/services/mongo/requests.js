@@ -58,8 +58,8 @@ const DB = {
 			.find(query, {
 				projection,
 			})
-			.limit(limit)
-			.sort({ $natural: -1 })
+			.limit(limit || 0)
+			.sort(sort ? { $natural: -1 } : {})
 			.toArray();
 		return response || [];
 	},
