@@ -4,6 +4,7 @@ async function getProjects({ teamId }) {
 	return DB.getMany("projects", {
 		query: {
 			teamId,
+			isArchived: false
 		},
 	});
 }
