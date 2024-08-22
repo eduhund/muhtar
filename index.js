@@ -1,16 +1,16 @@
-require("dotenv").config();
-const scheduler = require("./src/services/cron/cron");
-const express = require("./src/services/express/express");
-const mongo = require("./src/services/mongo/mongo");
-const slack = require("./src/services/slack/slack");
-const { auth } = require("./src/services/google/google");
-const { slackListenerRun } = require("./src/services/slack/listener");
+import "dotenv/config";
+import scheduler from "./src/services/cron/cron.js";
+import express from "./src/services/express/express.js";
+import mongo from "./src/services/mongo/mongo.js";
+import slack from "./src/services/slack/slack.js";
+import { auth } from "./src/services/google/google.js";
+import { slackListenerRun } from "./src/services/slack/listener.js";
 
 (async () => {
-	await express.start();
-	await mongo.start();
-	await slack.start();
-	slackListenerRun();
-	await auth();
-	await scheduler.schedule();
+  await express.start();
+  await mongo.start();
+  await slack.start();
+  slackListenerRun();
+  await auth();
+  await scheduler.schedule();
 })();

@@ -1,9 +1,7 @@
-const DB = require("../../requests");
+import DB from "../../requests.js";
 
-async function setNewTime(query) {
-	DB.insertOne("time", {
-		query,
-	});
+export async function setNewTime(query) {
+  DB.insertOne("time", {
+    query,
+  });
 }
-
-module.exports = setNewTime;

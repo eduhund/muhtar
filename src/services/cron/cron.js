@@ -1,17 +1,17 @@
-const cron = require("cron");
-const { setDays } = require("../isDayOff/isDayOff");
+import cron from "cron";
+import { setDays } from "../isDayOff/isDayOff.js";
 
 async function monthlyCronTick() {
-	setDays();
+  setDays();
 }
 
 async function schedule() {
-	monthlyCronJob = new cron.CronJob("0 0 1 * *", monthlyCronTick);
-	//dailyCronJob = new cron.CronJob("0 0 * * *", dailyCronTick);
-	//hourlyCronJob = new cron.CronJob("45 10-18 * * *", hourlyCronTick);
-	monthlyCronJob.start();
-	//dailyCronJob.start();
-	//hourlyCronJob.start();
+  const monthlyCronJob = new cron.CronJob("0 0 1 * *", monthlyCronTick);
+  //dailyCronJob = new cron.CronJob("0 0 * * *", dailyCronTick);
+  //hourlyCronJob = new cron.CronJob("45 10-18 * * *", hourlyCronTick);
+  monthlyCronJob.start();
+  //dailyCronJob.start();
+  //hourlyCronJob.start();
 }
 
-module.exports = { schedule };
+export default { schedule };

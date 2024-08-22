@@ -1,16 +1,14 @@
-const DB = require("../../requests");
+import DB from "../../requests.js";
 
-async function updateUser(user) {
-	const { id } = user;
-	DB.setOne("users", {
-		query: {
-			id,
-		},
-		set: user,
-		options: {
-			insertNew: true,
-		},
-	});
+export async function updateUser(user) {
+  const { id } = user;
+  DB.setOne("users", {
+    query: {
+      id,
+    },
+    set: user,
+    options: {
+      insertNew: true,
+    },
+  });
 }
-
-module.exports = updateUser;

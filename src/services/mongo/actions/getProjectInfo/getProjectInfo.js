@@ -1,12 +1,10 @@
-const DB = require("../../requests");
+import DB from "../../requests.js";
 
-async function getProjectInfo({ channelId, teamId }) {
-	return DB.getOne("projects", {
-		query: {
-			id: channelId,
-			teamId,
-		},
-	});
+export async function getProjectInfo({ channelId, teamId }) {
+  return DB.getOne("projects", {
+    query: {
+      id: channelId,
+      teamId,
+    },
+  });
 }
-
-module.exports = getProjectInfo;

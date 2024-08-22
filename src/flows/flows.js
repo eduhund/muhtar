@@ -1,19 +1,9 @@
-const updateUsers = require("./updateUsers/updateUsers");
-const updateProjects = require("./updateProjects/updateProjects");
-const renderModal = require("./renderModal/renderModal");
-const addTime = require("./addTime/addTime");
-const addProject = require("./addProject/addProject");
-const addUser = require("./addUser/addUser");
-const setupSubProject = require("./setupSubProject/setupSubProject");
-const renameProject = require("./renameProject/renameProject");
-
-module.exports = {
-	updateUsers,
-	updateProjects,
-	renderModal,
-	addTime,
-	addProject,
-	addUser,
-	setupSubProject,
-	renameProject,
-};
+export * from "./updateUsers/updateUsers.js";
+export * from "./updateProjects/updateProjects.js";
+export * from "./renderModal/renderModal.js";
+export * from "./addTime/addTime.js";
+export * from "./addProject/addProject.js";
+export * from "./addUser/addUser.js";
+export * from "./setupSubProject/setupSubProject.js";
+export * from "./renameProject/renameProject.js";
+export * from "./getLastTime/getLastTime.js";

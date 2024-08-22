@@ -1,17 +1,18 @@
-const log = require("../log4js/logger");
-const { App } = require("@slack/bolt");
+import log from "../log4js/logger.js";
+import bolt from "@slack/bolt";
+const { App } = bolt;
 
-const slack = new App({
-	token: process.env.SLACK_TOKEN,
-	appToken: process.env.SLACK_APP_TOKEN,
-	//signingSecret: process.env.SLACK_S_SECRET,
-	socketMode: true,
+export const slack = new App({
+  token: process.env.SLACK_TOKEN,
+  appToken: process.env.SLACK_APP_TOKEN,
+  //signingSecret: process.env.SLACK_S_SECRET,
+  socketMode: true,
 });
 
-async function start() {
-	await slack.start(process.env.SLACK_PORT || 3000);
+export async function start() {
+  await slack.start(process.env.SLACK_PORT || 3000);
 
-	log.info("Slack is running");
+  log.info("Slack is running");
 }
 
-module.exports = { slack, start };
+export default { slack, start };

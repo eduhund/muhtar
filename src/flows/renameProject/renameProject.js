@@ -1,32 +1,30 @@
-const log = require("../../services/log4js/logger");
-const { getParams } = require("../../utils/commandParams");
-const { sendEphemeral } = require("../../services/slack/actions");
-const { updateProject } = require("../../services/mongo/actions");
+import log from "../../services/log4js/logger.js";
+import { getParams } from "../../utils/commandParams.js";
+import { sendEphemeral } from "../../services/slack/actions.js";
+import { updateProject } from "../../services/mongo/actions.js";
 
-async function renameProject({ channelId, userId, text }) {
-	try {
-		const { value } = getParams(text);
-		if (!value) {
-			await sendEphemeral("renameEmpty", {
-				channelId,
-				userId,
-			});
-			return;
-		}
-		const data = {
-			id: channelId,
-			name: value,
-		};
-		await updateProject("set", data);
-		await sendEphemeral("renameSuccess", {
-			channelId,
-			userId,
-			newName: value,
-		});
-		return;
-	} catch (e) {
-		log.error("Error with renaming the project\n", e);
-	}
+export async function renameProject({ channelId, userId, text }) {
+  try {
+    const { value } = getParams(text);
+    if (!value) {
+      await sendEphemeral("renameEmpty", {
+        channelId,
+        userId,
+      });
+      return;
+    }
+    const data = {
+      id: channelId,
+      name: value,
+    };
+    await updateProject("set", data);
+    await sendEphemeral("renameSuccess", {
+      channelId,
+      userId,
+      newName: value,
+    });
+    return;
+  } catch (e) {
+    log.error("Error with renaming the project\n", e);
+  }
 }
-
-module.exports = renameProject;
