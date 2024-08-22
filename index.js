@@ -6,6 +6,7 @@ import slack from "./src/services/slack/slack.js";
 import { auth } from "./src/services/google/google.js";
 import { slackListenerRun } from "./src/services/slack/listener.js";
 import { sendHoursToManager } from "./src/scripts/index.js";
+import { setDays } from "./src/services/isDayOff/isDayOff.js";
 
 (async () => {
   await express.start();
@@ -14,5 +15,6 @@ import { sendHoursToManager } from "./src/scripts/index.js";
   slackListenerRun();
   await auth();
   await scheduler.schedule();
+  await setDays();
   sendHoursToManager();
 })();

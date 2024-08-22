@@ -44,6 +44,7 @@ async function getWorkdays() {
 
 let days = {};
 
-export function setDays() {
-  days = getWorkdays();
+export async function setDays() {
+  days = await getWorkdays();
+  console.log(days);
 }

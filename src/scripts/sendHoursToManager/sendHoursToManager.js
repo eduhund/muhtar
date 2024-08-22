@@ -38,13 +38,27 @@ export async function sendHoursToManager() {
     string += `\n• ${freelancer.name}: ${totalTime}`;
   }
 
+  // @nebel
   await sendMessage("dailyManagerReport", {
     channelId: "U04RKL1GNE6",
     text: string,
   });
 
+  // @pro
   await sendMessage("dailyManagerReport", {
     channelId: "U04RKJN88BD",
+    text: string,
+  });
+
+  // @alex
+  await sendMessage("dailyManagerReport", {
+    channelId: "U04RYBLDAJV",
+    text: string,
+  });
+
+  // @yury
+  await sendMessage("dailyManagerReport", {
+    channelId: "U05PBF917EW",
     text: string,
   });
   return;
