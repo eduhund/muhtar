@@ -1,15 +1,9 @@
 import DB from "../../requests.js";
 
-export async function getTimeList({ channelId, teamId, userId }) {
+export async function getTimeList(query) {
   return DB.getMany(
     "time",
-    {
-      query: {
-        projectId: channelId,
-        teamId,
-        userId,
-      },
-    },
+    { query },
     {
       limit: 1,
       sort: true,

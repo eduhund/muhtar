@@ -251,3 +251,10 @@ export function userNoTime({ channelId, userId }) {
     text: `Этот пользователь еще не заносил свои часы. Возможно, ему и не надо.`,
   };
 }
+
+export function dailyManagerReport({ channelId, text }) {
+  return {
+    channel: channelId,
+    text: `Вчера фрилансеры наработали:\n${text}`,
+  };
+}

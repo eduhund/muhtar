@@ -1,10 +1,6 @@
 import DB from "../../requests.js";
 
-export async function getProjects({ teamId }) {
-  return DB.getMany("projects", {
-    query: {
-      teamId,
-      isArchived: false,
-    },
-  });
+export async function getProjects(query = {}) {
+  query.isArchived = false;
+  return DB.getMany("projects", { query });
 }
