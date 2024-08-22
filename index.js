@@ -5,6 +5,7 @@ import mongo from "./src/services/mongo/mongo.js";
 import slack from "./src/services/slack/slack.js";
 import { auth } from "./src/services/google/google.js";
 import { slackListenerRun } from "./src/services/slack/listener.js";
+import { sendHoursToManager } from "./src/scripts/index.js";
 
 (async () => {
   await express.start();
@@ -13,4 +14,5 @@ import { slackListenerRun } from "./src/services/slack/listener.js";
   slackListenerRun();
   await auth();
   await scheduler.schedule();
+  sendHoursToManager();
 })();

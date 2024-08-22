@@ -6,3 +6,4 @@ export * from "./actions/getUserInfo/getUserInfo.js";
 export * from "./actions/setNewTime/setNewTime.js";
 export * from "./actions/updateUser/updateUser.js";
 export * from "./actions/updateProject/updateProject.js";
+export * from "./actions/getUsers/getUsers.js";
