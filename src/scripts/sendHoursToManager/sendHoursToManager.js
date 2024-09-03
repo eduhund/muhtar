@@ -23,10 +23,15 @@ export async function sendHoursToManager() {
   let string = "";
 
   for (const freelancer of freelansers) {
-    const timeBoard = await getTimeList({
-      userId: freelancer.id,
-      date: formattedDate,
-    });
+    const timeBoard = await getTimeList(
+      {
+        userId: freelancer.id,
+        date: formattedDate,
+      },
+      {
+        limit: 0,
+      }
+    );
 
     if (timeBoard.length === 0) {
       continue;
