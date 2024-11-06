@@ -60,15 +60,19 @@ export async function addTime({ userId, teamId, formData }) {
       projectId,
       subproject,
       userId,
-      date: formData?.dateBlock?.dateAction?.selected_date,
-      duration: formData?.hoursBlock?.hoursAction?.selected_option?.value,
+      date: new Date(
+        formData?.dateBlock?.dateAction?.selected_date || undefined
+      ),
+      duration: Number(
+        formData?.hoursBlock?.hoursAction?.selected_option?.value || 0
+      ),
       comment: formData?.commentBlock?.commentAction.value,
     };
     await setNewTime(data);
     await sendEphemeral("timeSuccess", data);
 
     // Deprecated
-    addTimeOld(data);
+    //addTimeOld(data);
   } catch (e) {
     log.error("Error with adding time to project\n", e);
   }
