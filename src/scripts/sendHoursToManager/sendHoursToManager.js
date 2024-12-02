@@ -10,15 +10,11 @@ export async function sendHoursToManager() {
     contractType: "freelance",
     isDeleted: false,
   });
-  const projects = await getProjects({});
-  const today = new Date(Date.now());
-  today.setDate(today.getDate() - 1);
 
-  const year = today.getFullYear();
-  const month = String(today.getMonth() + 1).padStart(2, "0");
-  const day = String(today.getDate()).padStart(2, "0");
+  const today = new Date();
+  const yesterday = new Date(today);
 
-  const formattedDate = `${year}-${month}-${day}`;
+  yesterday.setDate(today.getDate() - 1);
 
   let string = "";
 
@@ -26,7 +22,7 @@ export async function sendHoursToManager() {
     const timeBoard = await getTimeList(
       {
         userId: freelancer.id,
-        date: formattedDate,
+        date: yesterday,
       },
       {
         limit: 0,
