@@ -11,10 +11,13 @@ export async function sendHoursToManager() {
     isDeleted: false,
   });
 
-  const today = new Date();
-  const yesterday = new Date(today);
-
-  yesterday.setDate(today.getDate() - 1);
+  const date = new Date();
+  date.setUTCDate(date.getUTCDate() - 3);
+  const startOfDay = new Date(
+    Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate())
+  );
+  const endOfDay = new Date(startOfDay);
+  endOfDay.setUTCDate(endOfDay.getUTCDate() + 1);
 
   let string = "";
 
@@ -22,7 +25,10 @@ export async function sendHoursToManager() {
     const timeBoard = await getTimeList(
       {
         userId: freelancer.id,
-        date: yesterday,
+        date: {
+          $gte: startOfDay,
+          $lt: endOfDay,
+        },
       },
       {
         limit: 0,
