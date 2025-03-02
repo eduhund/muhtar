@@ -258,3 +258,13 @@ export function dailyManagerReport({ channelId, text }) {
     text: `Вчера фрилансеры наработали:\n${text}`,
   };
 }
+
+export function newLeadNeverhund({ channelId, name, email, more }) {
+  console.log(name);
+  return {
+    channel: channelId,
+    text: `☎️ У нас новый лид на сайте Neverhund: ${name} (${email})\n\n${more}`,
+    username: "Робот-пылесос",
+    icon_url: "https://files.eduhund.com/robot_vc.png",
+  };
+}
