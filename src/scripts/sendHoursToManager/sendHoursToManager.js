@@ -1,4 +1,8 @@
 import {
+  getPreviousWorkday,
+  isDayWorkday,
+} from "../../services/isDayOff/isDayOff.js";
+import {
   getProjects,
   getTimeList,
   getUsers,
@@ -6,29 +10,21 @@ import {
 import { sendMessage } from "../../services/slack/actions.js";
 
 export async function sendHoursToManager() {
+  if (!(await isDayWorkday())) return;
+
   const freelansers = await getUsers({
     contractType: "freelance",
     isDeleted: false,
   });
 
-  const date = new Date();
-  date.setUTCDate(date.getUTCDate() - 3);
-  const startOfDay = new Date(
-    Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate())
-  );
-  const endOfDay = new Date(startOfDay);
-  endOfDay.setUTCDate(endOfDay.getUTCDate() + 1);
-
-  let string = "";
+  const previusWorkday = getPreviousWorkday();
+  const workedHours = [];
 
   for (const freelancer of freelansers) {
     const timeBoard = await getTimeList(
       {
         userId: freelancer.id,
-        date: {
-          $gte: startOfDay,
-          $lt: endOfDay,
-        },
+        date: previusWorkday,
       },
       {
         limit: 0,
@@ -42,31 +38,34 @@ export async function sendHoursToManager() {
     const totalTime =
       timeBoard.reduce((prev, curr) => prev + curr.duration, 0) / 60;
 
-    string += `\n• ${freelancer.name}: ${totalTime}`;
+    workedHours.push({
+      name: freelancer,
+      time: totalTime,
+    });
   }
 
   // @nebel
   await sendMessage("dailyManagerReport", {
     channelId: "U04RKL1GNE6",
-    text: string,
+    data: workedHours,
   });
 
   // @pro
   await sendMessage("dailyManagerReport", {
     channelId: "U04RKJN88BD",
-    text: string,
+    data: workedHours,
   });
 
   // @alex
   await sendMessage("dailyManagerReport", {
     channelId: "U04RYBLDAJV",
-    text: string,
+    data: workedHours,
   });
 
   // @yury
   await sendMessage("dailyManagerReport", {
     channelId: "U05PBF917EW",
-    text: string,
+    data: workedHours,
   });
   return;
 }

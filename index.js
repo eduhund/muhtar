@@ -5,7 +5,7 @@ import mongo from "./src/services/mongo/mongo.js";
 import slack from "./src/services/slack/slack.js";
 import { auth } from "./src/services/google/google.js";
 import { slackListenerRun } from "./src/services/slack/listener.js";
-import { setDays } from "./src/services/isDayOff/isDayOff.js";
+import { setWorkdays } from "./src/services/isDayOff/isDayOff.js";
 
 (async () => {
   await express.start();
@@ -14,5 +14,5 @@ import { setDays } from "./src/services/isDayOff/isDayOff.js";
   slackListenerRun();
   await auth();
   await scheduler.schedule();
-  await setDays();
+  await setWorkdays();
 })();

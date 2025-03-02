@@ -252,10 +252,26 @@ export function userNoTime({ channelId, userId }) {
   };
 }
 
-export function dailyManagerReport({ channelId, text }) {
+export function dailyManagerReport({ channelId, data }) {
+  let text = "";
+  if (data.length === 0) {
+    text = "Фрилансеры еще не заносили свои часы за предыдущий рабочий день.";
+  } else {
+    text = "Вчера фрилансеры наработали:\n";
+    for (const item of data) {
+      text += `\n• ${item.name}: ${item.time}`;
+    }
+  }
   return {
     channel: channelId,
-    text: `Вчера фрилансеры наработали:\n${text}`,
+    text,
+  };
+}
+
+export function noTrackedTimeAlarm({ userId }) {
+  return {
+    channel: userId,
+    text: `‼️АЛАРМ‼️\n\nЯ не вижу затреканных тобой часов за вчера. Сделай это, пожалуйста!\nНе нервируй Наташу, менеджера и бедную собачку... 💔`,
   };
 }
 
