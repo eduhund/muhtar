@@ -60,9 +60,9 @@ export async function addTime({ userId, teamId, formData }) {
       projectId,
       subproject,
       userId,
-      date: new Date(
-        formData?.dateBlock?.dateAction?.selected_date || undefined
-      ),
+      date:
+        formData?.dateBlock?.dateAction?.selected_date ||
+        new Date().toISOString().split("T")[0],
       duration: Number(
         formData?.hoursBlock?.hoursAction?.selected_option?.value || 0
       ),

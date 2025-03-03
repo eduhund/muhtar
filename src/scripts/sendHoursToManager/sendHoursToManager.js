@@ -24,7 +24,10 @@ export async function sendHoursToManager() {
     const timeBoard = await getTimeList(
       {
         userId: freelancer.id,
-        date: previusWorkday,
+        date: {
+          $gte: previusWorkday,
+          $lt: new Date().toISOString().split("T")[0],
+        },
       },
       {
         limit: 0,

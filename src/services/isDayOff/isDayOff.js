@@ -26,7 +26,7 @@ async function getPreviousMonthWorkdays(month, year) {
 }
 
 function findWorkday(todayDate) {
-  for (let i = todayDate; i >= 0; i--) {
+  for (let i = todayDate - 2; i >= 0; i--) {
     if (!currentMonthWorkdays[i]) return { date: i + 1, currentMonth: true };
   }
   for (let i = previousMonthWorkdays.length - 1; i >= 0; i--) {
@@ -57,14 +57,12 @@ export function getPreviousWorkday() {
     const { date, currentMonth } = findWorkday(todayDate);
     const month = currentMonth ? today.getMonth() : today.getMonth() - 1;
     const year = month > 0 ? today.getFullYear() : today.getFullYear() - 1;
-    return new Date(Date.UTC(year, month, date));
+    return new Date(Date.UTC(year, month, date)).toISOString().split("T")[0];
   } catch (e) {
     log.error("Error with getting previous workday: ", e);
-    const date = new Date(getPreviousWorkday());
+    const date = new Date();
     date.setUTCDate(date.getUTCDate() - 1);
-    return new Date(
-      Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate())
-    );
+    return date.toISOString().split("T")[0];
   }
 }
 
