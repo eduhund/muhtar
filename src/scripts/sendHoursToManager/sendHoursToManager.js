@@ -42,7 +42,7 @@ export async function sendHoursToManager() {
       timeBoard.reduce((prev, curr) => prev + curr.duration, 0) / 60;
 
     workedHours.push({
-      name: freelancer,
+      name: freelancer.name,
       time: totalTime,
     });
   }
