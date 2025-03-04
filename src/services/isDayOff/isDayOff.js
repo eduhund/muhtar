@@ -43,10 +43,9 @@ export async function setWorkdays() {
     await getCurrentMonthWorkdays(month);
     await getPreviousMonthWorkdays(month ? month - 1 : 12, year);
     log.info("Workdays have been set");
-    log.debug("Current month workdays: ", currentMonthWorkdays);
-    log.debug("Previous month workdays: ", previousMonthWorkdays);
   } catch (e) {
-    log.error("Error with setting workdays: ", e);
+    log.error("Error with setting workdays");
+    log.debug(e);
   }
 }
 
@@ -60,9 +59,12 @@ export function getPreviousWorkday() {
     return new Date(Date.UTC(year, month, date)).toISOString().split("T")[0];
   } catch (e) {
     log.error("Error with getting previous workday: ", e);
+    log.debug(e);
     const date = new Date();
     date.setUTCDate(date.getUTCDate() - 1);
-    return date.toISOString().split("T")[0];
+    const dateOnly = date.toISOString().split("T")[0];
+    log.info("Yesterday was set as previous workday");
+    return dateOnly;
   }
 }
 
@@ -74,7 +76,8 @@ export async function isDayWorkday(day = Date.now()) {
     const year = dayDate.getFullYear();
     return await isDayOff.date({ date, month, year });
   } catch (e) {
-    log.error("Error with getting day status: ", e);
+    log.error("Error with getting day status!");
+    log.debug(e);
   } finally {
     return true;
   }
