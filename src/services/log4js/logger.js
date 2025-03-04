@@ -1,26 +1,58 @@
 import log4js from "log4js";
 
-log4js.configure({
+const {
+  NODE_ENV = "default",
+  SLACK_DEBUGGER_TOKEN,
+  SLACK_DEBUGGER_CHANNEL_ID,
+  SLACK_DEBUGGER_USERNAME = "ѢѢ",
+} = process.env;
+
+const baseLayout = {
+  type: "pattern",
+  pattern: `%[[%p] %d{dd.MM.yyyy hh:mm:ss:SSS}%] - %m`,
+};
+
+const slackLayout = {
+  type: "pattern",
+  pattern: `[%h] [%p] %d{dd.MM.yyyy hh:mm:ss} - %m`,
+};
+
+const config = {
   appenders: {
-    out: { type: "stdout" },
-    outLevelFilter: {
-      type: "logLevelFilter",
-      level: "warn",
-      appender: "out",
+    console: { type: "console", layout: baseLayout },
+    file: {
+      type: "file",
+      layout: baseLayout,
+      filename: "logs/app.log",
+      maxLogSize: 10485760, // 10MB
+      backups: 3,
+      compress: true,
     },
-    file: { type: "file", filename: "./logs/muhtar.log" },
   },
   categories: {
-    default: { appenders: ["out"], level: "debug" },
-    test: {
-      appenders: ["outLevelFilter", "file"],
-      level: "debug",
-    },
-    prod: {
-      appenders: ["outLevelFilter", "file"],
-      level: "debug",
-    },
+    default: { appenders: ["console", "file"], level: "debug" },
+    development: { appenders: ["console"], level: "debug" },
+    production: { appenders: ["console", "file"], level: "debug" },
   },
-});
+};
 
-export default log4js.getLogger(process.env.MACHINE);
+if (SLACK_DEBUGGER_TOKEN && SLACK_DEBUGGER_CHANNEL_ID) {
+  config.appenders.slack = {
+    type: "@log4js-node/slack",
+    token: SLACK_DEBUGGER_TOKEN,
+    channel_id: SLACK_DEBUGGER_CHANNEL_ID,
+    username: SLACK_DEBUGGER_USERNAME,
+    layout: slackLayout,
+  };
+  config.appenders.slackInfo = {
+    type: "logLevelFilter",
+    level: "info",
+    appender: "slack",
+  };
+
+  config.categories.production.appenders.push("slackInfo");
+}
+
+log4js.configure(config);
+
+export default log4js.getLogger(NODE_ENV);
