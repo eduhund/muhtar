@@ -1,27 +1,26 @@
 import log from "../log4js/logger.js";
 import express from "express";
-import bodyParser from "body-parser";
+import cors from "cors";
 
-const app = express();
-const port = process.env.SERVER_PORT || 80;
+const server = express();
+const { SERVER_PORT = 8081 } = process.env;
 
-app.use(bodyParser.urlencoded({ extended: false }));
-/*
-app.post("/slack/payload", handleSlackPayload);
-app.post("/slack/time", handleTimeCommand);
-app.post("/slack/update_lists", handleUpdateListsCommand);
-*/
+server.use(cors());
+
+server.use(express.urlencoded({ extended: true }));
+
+server.use(express.json());
 
 async function start() {
   return new Promise((resolve, reject) => {
-    app.listen(port, (err) => {
+    server.listen(SERVER_PORT, (err) => {
       if (err) {
         return reject(err);
       }
-      log.info("Server starts on port", port);
+      log.info("Server starts on port", SERVER_PORT);
       return resolve();
     });
   });
 }
 
-export default { app, start };
+export default { server, start };
