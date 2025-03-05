@@ -2,11 +2,7 @@ import log from "../log4js/logger.js";
 import express from "express";
 import cors from "cors";
 
-import {
-  publicMethods,
-  privateMethods,
-  allMethods,
-} from "../../API/methods.js";
+import { publicMethods, privateMethods } from "../../API/methods.js";
 
 import { checkAuth } from "./security.js";
 import { handlePath, handleResponse } from "./responses.js";

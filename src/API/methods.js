@@ -1,3 +1,4 @@
+import inviteUsers from "./inviteUsers/inviteUsers.js";
 import login from "./login/login.js";
 import register from "./register/register.js";
 
@@ -16,6 +17,13 @@ export const publicMethods = [
   },
 ];
 
-export const privateMethods = [];
+export const privateMethods = [
+  {
+    method: "post",
+    path: "/inviteUsers",
+    handler: inviteUsers,
+    required: ["organizationId", "invites"],
+  },
+];
 
 export const allMethods = [...publicMethods, ...privateMethods];

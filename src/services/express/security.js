@@ -8,10 +8,10 @@ export async function checkAuth(req, res, next) {
       const token = authorization.replace("Bearer ", "");
       const tokenData = checkToken(token);
 
-      if (!tokenData) return next({ code: 10104 });
+      if (!tokenData) return next({ code: 10103 });
 
-      const { orgId } = tokenData;
-      req.data = { orgId };
+      const { userId } = tokenData;
+      req.data = { userId };
       return next();
     }
 

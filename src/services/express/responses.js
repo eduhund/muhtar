@@ -41,6 +41,16 @@ const ERRORS = [
     description: "User with this email is already registered",
   },
   {
+    code: 10106,
+    type: "invalid_credentials",
+    description: "User with this email is already registered",
+  },
+  {
+    code: 10107,
+    type: "invalid_credentials",
+    description: "You does not have permission to invite users",
+  },
+  {
     code: 20101,
     type: "validate_failure",
     description: "Error in request params validation",
