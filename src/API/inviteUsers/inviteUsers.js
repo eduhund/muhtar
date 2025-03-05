@@ -79,10 +79,8 @@ export default async function inviteUsers(req, res, next) {
         status: "invited",
       });
     }
-    const content = { results };
-    return next({ code: 0, content });
+    return next({ code: 0, content: { results } });
   } catch (e) {
-    const err = { code: 20201, trace: e };
-    return next(err);
+    return next({ code: 20203, trace: e });
   }
 }

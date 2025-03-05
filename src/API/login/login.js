@@ -16,11 +16,9 @@ export default async function login(req, res, next) {
     if (!isValidPassword) {
       return next({ code: 10102 });
     }
-
-    const content = setToken(user, req);
-    return next({ code: 0, content });
+    const accessToken = setToken(newUser, req);
+    return next({ code: 0, content: { accessToken } });
   } catch (e) {
-    const err = { code: 20201, trace: e };
-    return next(err);
+    return next({ code: 20201, trace: e });
   }
 }
