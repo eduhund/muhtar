@@ -1,9 +1,21 @@
-import auth from "./auth/auth.js";
+import login from "./login/login.js";
+import register from "./register/register.js";
 
-export default [
+export const publicMethods = [
   {
-    method: "get",
-    path: "/auth",
-    handler: auth,
+    method: "post",
+    path: "/login",
+    handler: login,
+    required: ["email", "password"],
+  },
+  {
+    method: "post",
+    path: "/register",
+    handler: register,
+    required: ["email", "password", "firstName", "lastName"],
   },
 ];
+
+export const privateMethods = [];
+
+export const allMethods = [...publicMethods, ...privateMethods];

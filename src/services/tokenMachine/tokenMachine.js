@@ -5,14 +5,7 @@ function rand() {
 }
 
 function createToken() {
-  const accessToken = rand() + rand();
-  const refreshToken = rand();
-  const expiresAt = Date.now() + 5 * 24 * 60 * 60 * 1000;
-  return {
-    accessToken,
-    expiresAt,
-    refreshToken,
-  };
+  return rand() + rand();
 }
 
 const tokens = readFile("/temp/", "tokens.json") || {};
@@ -21,16 +14,14 @@ export function checkToken(token) {
 }
 
 export function setToken({ userId }, data) {
-  const { accessToken, expiresAt, refreshToken } = createToken();
-  tokens[accessToken] = {
+  const aceessToken = createToken();
+  tokens[aceessToken] = {
     userId,
-    expiresAt,
-    refreshToken,
     ip: data?.ip,
     ts: Date.now(),
     userAgent: data?.userAgent,
     geo: data?.geo,
   };
   writeFile("/temp/", "tokens.json", tokens);
-  return newToken;
+  return aceessToken;
 }

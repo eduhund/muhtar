@@ -33,7 +33,7 @@ export default {
     return getCollection(collection).findOne(query, { projection });
   },
   setOne: async (collection, data) => {
-    const { query, set, push, pull, returns = [], options = {} } = data;
+    const { query, set, push, pull, inc, returns = [], options = {} } = data;
 
     const allOptions = getOptions(returns, options);
 
@@ -41,7 +41,8 @@ export default {
       query,
       (set && { $set: set }) ||
         (push && { $push: push }) ||
-        (pull && { $pull: pull }),
+        (pull && { $pull: pull }) ||
+        (inc && { $inc: inc }),
       allOptions
     );
     return response?.value || null;
