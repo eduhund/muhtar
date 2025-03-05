@@ -4,7 +4,6 @@ import {
   createMembership,
   createOrganization,
   createUser,
-  getMembership,
   getUserInfo,
   setMembership,
 } from "../../services/mongo/actions.js";
@@ -29,7 +28,6 @@ export default async function register(req, res, next) {
     };
     await createUser(newUser);
     if (!organizationId) {
-      console.log("here1");
       const newOrganizationId = uuidv4();
       await createOrganization({
         organizationId: newOrganizationId,
@@ -42,7 +40,6 @@ export default async function register(req, res, next) {
         status: "active",
       });
     } else {
-      console.log("here2");
       const membership = await setMembership(
         {
           userId: newUser.userId,
