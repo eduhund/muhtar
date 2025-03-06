@@ -4,16 +4,16 @@ import {
   createMembership,
   createOrganization,
   createUser,
-  getUserInfo,
+  getUser,
   setMembership,
-} from "../../services/mongo/actions.js";
+} from "../../services/mongo/collectionControllers/index.js";
 import { hashPassword } from "../../utils/password.js";
 import { setToken } from "../../services/tokenMachine/tokenMachine.js";
 
 export default async function register(req, res, next) {
   try {
     const { email, password, firstName, lastName, organizationId } = req.body;
-    const user = await getUserInfo({ email });
+    const user = await getUser({ email });
     if (user) {
       return next({ code: 10105 });
     }
@@ -45,7 +45,7 @@ export default async function register(req, res, next) {
           userId: newUser.userId,
           organizationId,
         },
-        { set: { status: "active" } }
+        { status: "active" }
       );
 
       if (!membership) {

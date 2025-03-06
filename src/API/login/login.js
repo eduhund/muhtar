@@ -1,11 +1,11 @@
-import { getUserInfo } from "../../services/mongo/actions.js";
+import { getUser } from "../../services/mongo/collectionControllers/index.js";
 import { setToken } from "../../services/tokenMachine/tokenMachine.js";
 import { verifyPassword } from "../../utils/password.js";
 
 export default async function login(req, res, next) {
   try {
     const { email, password } = req.body;
-    const user = await getUserInfo({ email });
+    const user = await getUser({ email });
 
     if (!user) {
       return next({ code: 10101 });

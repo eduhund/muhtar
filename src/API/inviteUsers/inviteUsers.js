@@ -1,9 +1,9 @@
 import {
   createMembership,
   getMembership,
-  getUserInfo,
+  getUser,
   setMembership,
-} from "../../services/mongo/actions.js";
+} from "../../services/mongo/collectionControllers/index.js";
 
 const ROLE_HIERARCHY = ["member", "manager", "admin", "owner"];
 
@@ -19,8 +19,8 @@ export default async function inviteUsers(req, res, next) {
     const { userId } = req.data;
 
     const inviterMembership = await getMembership({
-      organizationId,
       userId,
+      organizationId,
     });
 
     if (!inviterMembership || inviterMembership.status !== "active") {
@@ -56,7 +56,7 @@ export default async function inviteUsers(req, res, next) {
 
         await setMembership(
           { _id: existingMembership._id },
-          { set: { status: "pending", role } }
+          { status: "pending", role }
         );
         results.push({
           email,
@@ -65,7 +65,7 @@ export default async function inviteUsers(req, res, next) {
         });
         continue;
       }
-      const user = await getUserInfo({ email });
+      const user = await getUser({ email });
       await createMembership({
         email,
         userId: user?.userId,
