@@ -1,5 +1,5 @@
-import log from "../../services/log4js/logger.js";
-import { updateUser } from "../../services/mongo/actions.js";
+import log from "../../utils/log.js";
+//import { updateUser } from "../../services/mongo/actions.js";
 
 export async function addUser({
   userId,
@@ -10,6 +10,7 @@ export async function addUser({
   teamId,
 }) {
   try {
+    /*
     const data = {
       id: userId,
       team: teamId,
@@ -20,6 +21,7 @@ export async function addUser({
     };
     await updateUser(data);
     log.info("New user was added:\n", data);
+    */
   } catch (e) {
     log.error("Error with adding project info to bot\n", e);
   }

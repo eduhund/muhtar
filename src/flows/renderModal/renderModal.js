@@ -1,10 +1,10 @@
-import log from "../../services/log4js/logger.js";
-import { getProjects } from "../../services/mongo/actions.js";
-import { sendModal } from "../../services/slack/actions.js";
+import { sendModal } from "../../controllers/slack/actions/index.js";
+import log from "../../utils/log.js";
+import { projectService } from "../../services/index.js";
 
 export async function renderModal({ triggerId, channelId, teamId }) {
   try {
-    const projects = await getProjects({ teamId });
+    const projects = await projectService.getProjectsByTeam(teamId);
     const selectedProject =
       projects.filter((project) => project.id === channelId) || [];
     return sendModal("timeModal", { triggerId, projects, selectedProject });

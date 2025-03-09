@@ -1,15 +1,15 @@
 import "dotenv/config";
-import log from "./src/services/log4js/logger.js";
-import scheduler from "./src/services/cron/cron.js";
-import express from "./src/services/express/express.js";
-import mongo from "./src/services/mongo/mongo.js";
-import slack from "./src/services/slack/slack.js";
-import { setWorkdays } from "./src/services/isDayOff/isDayOff.js";
+import log from "./src/utils/log.js";
+import scheduler from "./src/utils/cron.js";
+import express from "./src/controllers/express/express.js";
+import * as mongo from "./src/controllers/mongo/mongo.js";
+import slack from "./src/controllers/slack/slack.js";
+import { setWorkdays } from "./src/utils/isDayOff.js";
 
 (async () => {
   try {
     await express.start();
-    await mongo.start();
+    await mongo.connect();
     await slack.start();
     await scheduler.schedule();
     await setWorkdays();

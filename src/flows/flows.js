@@ -1,5 +1,3 @@
-export * from "./updateUsers/updateUsers.js";
-export * from "./updateProjects/updateProjects.js";
 export * from "./renderModal/renderModal.js";
 export * from "./addTime/addTime.js";
 export * from "./addProject/addProject.js";

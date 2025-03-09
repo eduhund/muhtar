@@ -1,10 +1,11 @@
-import log from "../../services/log4js/logger.js";
-import { getProjectInfo, updateProject } from "../../services/mongo/actions.js";
-import { getChannelInfo, sendMessage } from "../../services/slack/actions.js";
+import log from "../../utils/log.js";
+//import { getProject, setProject } from "../../services/mongo/actions.js";
+//import { getChannelInfo, sendMessage } from "../../services/slack/actions.js";
 
 export async function addProject({ channelId, teamId }) {
   try {
-    const isProjectExist = (await getProjectInfo({ channelId, teamId }))
+    /*
+    const isProjectExist = (await getProject({ channelId, teamId }))
       ? true
       : false;
     if (isProjectExist) {
@@ -19,8 +20,9 @@ export async function addProject({ channelId, teamId }) {
       name: purpose?.value || name,
       teamId: teamId,
     };
-    await updateProject("set", data);
+    await setProject("set", data);
     await sendMessage("addNewProject", { channelId, name: data.name });
+    */
   } catch (e) {
     log.error("Error with adding project info to bot\n", e);
   }

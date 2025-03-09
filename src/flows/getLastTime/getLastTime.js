@@ -1,13 +1,14 @@
-import log from "../../services/log4js/logger.js";
-import { getParams } from "../../utils/commandParams.js";
-import { sendEphemeral } from "../../services/slack/actions.js";
-
+import log from "../../utils/log.js";
+//import { getParams } from "../../utils/commandParams.js";
+//import { sendEphemeral } from "../../services/slack/actions.js";
+/*
 import {
   getTimeList,
   getProjectInfo,
   getUserInfo,
 } from "../../services/mongo/actions.js";
-import { extrudeMentions } from "../../utils/messageMentions.js";
+*/
+//import { extrudeMentions } from "../../utils/messageMentions.js";
 
 function getDate(date) {
   if (typeof date === "number") {
@@ -42,6 +43,7 @@ async function getTime(userId, channelId, teamId) {
 
 export async function getLastTime({ channelId, userId, teamId, text }) {
   try {
+    /*
     const { value } = getParams(text);
     const { userIds = [] } = extrudeMentions(value);
     if (userIds.length === 0) {
@@ -69,6 +71,7 @@ export async function getLastTime({ channelId, userId, teamId, text }) {
       }
     }
     return true;
+    */
   } catch (e) {
     log.error("Error with getting last time to user\n", e);
   }

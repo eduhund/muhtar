@@ -1,10 +1,11 @@
-import log from "../../services/log4js/logger.js";
-import { getProjectInfo, updateProject } from "../../services/mongo/actions.js";
-import { sendEphemeral } from "../../services/slack/actions.js";
+import log from "../../utils/log.js";
+//import { getProjectInfo, updateProject } from "../../services/mongo/actions.js";
+//import { sendEphemeral } from "../../services/slack/actions.js";
 import { getParams } from "../../utils/commandParams.js";
 
 export async function setupSubProject({ channelId, teamId, userId, text }) {
   try {
+    /*
     const { param, value } = getParams(text);
     if (param === "-list") {
       const project = await getProjectInfo({ channelId, teamId });
@@ -52,6 +53,7 @@ export async function setupSubProject({ channelId, teamId, userId, text }) {
       });
       return;
     }
+    */
   } catch (e) {
     log.error("Error with processing subproject\n", e);
   }

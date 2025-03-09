@@ -1,9 +1,10 @@
-import log from "../../services/log4js/logger.js";
-import { setNewTime } from "../../services/mongo/actions.js";
-import { sendEphemeral } from "../../services/slack/actions.js";
+import log from "../../utils/log.js";
+//import { setNewTime } from "../../services/mongo/actions.js";
+//import { sendEphemeral } from "../../controllers/slack/actions.js";
 
 export async function addTime({ userId, teamId, formData }) {
   try {
+    /*
     const projectName =
       formData?.projectBlock?.projectAction?.selected_option?.text?.text;
     const splitted = String(projectName).split(" | ") || [];
@@ -27,6 +28,7 @@ export async function addTime({ userId, teamId, formData }) {
     };
     await setNewTime(data);
     await sendEphemeral("timeSuccess", data);
+    */
   } catch (e) {
     log.error("Error with adding time to project\n", e);
   }
