@@ -11,6 +11,14 @@ export default class MembershipRepository {
     return data ? new Team(data) : null;
   }
 
+  async findBySlackId(userId, teamId) {
+    const data = await this.adapter.findOne("memberships", {
+      "slack.userId": userId,
+      "slack.teamId": teamId,
+    });
+    return data ? new Team(data) : null;
+  }
+
   async findAllByEmail(email) {
     const data = await this.adapter.findMany("memberships", { email });
     return data.map((membership) => new this(membership));

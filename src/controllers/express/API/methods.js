@@ -1,3 +1,4 @@
+import createProject from "./createProject/createProject.js";
 import inviteUsers from "./inviteUsers/inviteUsers.js";
 import login from "./login/login.js";
 import register from "./register/register.js";
@@ -23,6 +24,12 @@ export const privateMethods = [
     path: "/inviteUsers",
     handler: inviteUsers,
     required: ["organizationId", "invites"],
+  },
+  {
+    method: "post",
+    path: "/createProject",
+    handler: createProject,
+    required: ["title", "teamId"],
   },
 ];
 

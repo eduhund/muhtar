@@ -1,5 +1,5 @@
 export default class BaseModel {
-  static initDb(db) {
+  initDb(db) {
     this.db = db;
   }
 

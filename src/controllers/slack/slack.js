@@ -1,14 +1,16 @@
 import bolt from "@slack/bolt";
 
+import { CreateProjectCommand } from "../../commands/index.js";
+
 import {
   renderModal,
   addTime,
-  addProject,
+  createProjectFlow,
   addUser,
   setupSubProject,
   renameProject,
   getLastTime,
-} from "../../flows/flows.js";
+} from "../../flows/index.js";
 import { prepareData } from "./utils.js";
 import log from "../../utils/log.js";
 
@@ -73,13 +75,13 @@ slack.event("member_joined_channel", async ({ event }) => {
     return;
   }
   log.debug("Slack — Bot added to new channel: ", event);
-  const data = prepareData(event);
-  await addProject(data);
+  const command = CreateProjectCommand.fromSlack(event);
+  await createProjectFlow.execute(command);
 });
 
 slack.event("team_join", async ({ event }) => {
   log.debug("Slack — New person inda house: ", event);
-  const data = prepareData(event);
+  const data = prepareData(body);
   await addUser(data);
 });
 

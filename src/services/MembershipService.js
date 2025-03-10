@@ -11,6 +11,10 @@ export default class MembershipService {
     return await this.membershipRepository.findById(id);
   }
 
+  static async getMembershipBySlackId(userId, teamId) {
+    return await this.membershipRepository.findBySlackId(userId, teamId);
+  }
+
   static async getMembershipsByTeam(teamId) {
     return await this.membershipRepository.findAllByTeamId(teamId);
   }

@@ -12,21 +12,19 @@ export default class ProjectRepository {
   }
 
   async findAllByTeam(teamId) {
-    const data = await this.adapter.find("projects", { teamId });
+    const data = await this.adapter.findMany("projects", { teamId });
     return data.map((project) => new Project(project));
   }
 
-  static async create({ title, description, creatorId, teamId }) {
-    const id = uuidv4();
+  async create({ title, creatorId, teamId }) {
     const project = new Project({
-      id,
+      id: uuidv4(),
       title,
-      description,
       creatorId,
       teamId,
       createdAt: new Date(),
     });
-    await project.save();
+    await this.adapter.insertOne("projects", project);
     return project;
   }
 }
