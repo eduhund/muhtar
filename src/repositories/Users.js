@@ -3,6 +3,10 @@ export default class Users {
     this.adapter = adapter;
   }
 
+  async create(user) {
+    return this.adapter.insertOne("users", user);
+  }
+
   async findById(id, returnFields) {
     return this.adapter.findOne("users", { _id: id }, returnFields);
   }
@@ -17,9 +21,5 @@ export default class Users {
 
   async save(user) {
     await this.adapter.updateOne("users", user);
-  }
-
-  async create(user) {
-    return this.adapter.insertOne("users", user);
   }
 }

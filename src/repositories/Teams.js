@@ -6,23 +6,15 @@ export default class Teams {
     this.adapter = adapter;
   }
 
+  static async create(team) {
+    return this.adapter.insertOne("projects", project);
+  }
+
   async findById(id) {
-    const data = await this.adapter.findOne("teams", { id });
-    return data ? new Team(data) : null;
+    return this.adapter.findOne("teams", { id });
   }
 
   async save(team) {
-    await this.adapter.updateOne("teams", team);
-  }
-
-  static async create({ name, creatorId }) {
-    const id = uuidv4();
-    const team = new Team({
-      id,
-      name,
-      creatorId,
-      createdAt: new Date(),
-    });
-    return team;
+    return this.adapter.updateOne("teams", team);
   }
 }

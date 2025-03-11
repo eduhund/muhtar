@@ -3,6 +3,10 @@ export default class Memberships {
     this.adapter = adapter;
   }
 
+  async create(membership) {
+    return this.adapter.insertOne("memberships", membership);
+  }
+
   async findById(id) {
     return this.adapter.findOne("memberships", { id });
   }
@@ -24,10 +28,6 @@ export default class Memberships {
 
   async findAllByTeam(teamId) {
     return this.adapter.findMany("memberships", { teamId });
-  }
-
-  async create(membership) {
-    return this.adapter.insertOne("memberships", membership);
   }
 
   async save(membership) {
