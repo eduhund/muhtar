@@ -19,7 +19,7 @@ export default class Users {
     await this.adapter.updateOne("users", user);
   }
 
-  static async create(user) {
+  async create(user) {
     return this.adapter.insertOne("users", user);
   }
 }

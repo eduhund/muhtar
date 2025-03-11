@@ -1,5 +1,5 @@
-import User from "../models/User.js";
 import Service from "./Service.js";
+import User from "../models/User.js";
 
 export default class UserService extends Service {
   constructor(repository, services) {
@@ -26,11 +26,13 @@ export default class UserService extends Service {
   }
 
   async getUserById(id) {
-    return await this.repository.findById(id);
+    const data = await this.repository.findById(id);
+    return data ? new User(data) : null;
   }
 
   async getUserByEmail(email) {
-    return await this.repository.findByEmail(email);
+    const data = await this.repository.findByEmail(email);
+    return data ? new User(data) : null;
   }
 
   async getUserCredentials(userId) {
@@ -44,12 +46,9 @@ export default class UserService extends Service {
     return this.repository.update(userId, { password: hashedPassword });
   }
 
-  async getUsersByTeam(teamId) {
-    return await this.membershipService.findTeamMembers({ teamId });
-  }
-
   async getUserBySlackId(slackId) {
-    return this.repository.findOne({ "slack.userId": slackId });
+    const data = await this.repository.findOne({ "slack.userId": slackId });
+    return data ? new User(data) : null;
   }
 
   async findAllUsers(criteria = {}) {
@@ -59,6 +58,11 @@ export default class UserService extends Service {
 
   async findActiveUsers(criteria = {}) {
     const data = await this.findAllUsers({ isDeleted: false, ...criteria });
+    return data.map((user) => new User(user));
+  }
+
+  async getUsersByTeam(teamId) {
+    const data = await this.membershipService.findTeamMembers({ teamId });
     return data.map((user) => new User(user));
   }
 }
