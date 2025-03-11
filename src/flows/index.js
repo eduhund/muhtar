@@ -1,6 +1,12 @@
 import CreateProjectFlow from "./createProject/createProject.js";
+import LoginFlow from "./login/login.js";
 
-import { projectService, membershipService } from "../services/index.js";
+import {
+  authService,
+  membershipService,
+  projectService,
+  userService,
+} from "../services/index.js";
 
 export * from "./renderModal/renderModal.js";
 export * from "./addTime/addTime.js";
@@ -13,3 +19,5 @@ export const createProjectFlow = new CreateProjectFlow({
   projectService,
   membershipService,
 });
+
+export const loginFlow = new LoginFlow({ userService, authService });

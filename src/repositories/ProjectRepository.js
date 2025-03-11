@@ -16,10 +16,10 @@ export default class ProjectRepository {
     return data.map((project) => new Project(project));
   }
 
-  async create({ title, creatorId, teamId }) {
+  async create({ name, creatorId, teamId }) {
     const project = new Project({
       id: uuidv4(),
-      title,
+      name,
       creatorId,
       teamId,
       createdAt: new Date(),

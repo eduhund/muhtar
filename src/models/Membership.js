@@ -1,75 +1,59 @@
-import BaseModel from "./BaseModel.js";
-export default class Membership extends BaseModel {
+import { membershipRepository } from "../repositories/index.js";
+import { BaseModel } from "./BaseModel.js";
+
+export class Membership extends BaseModel {
   constructor(data = {}) {
     super();
+    if (data.id) this.id = data.id;
     this.userId = data.userId ?? null;
+    this.email = data.email ?? null;
     this.teamId = data.teamId ?? null;
     this.role = data.role ?? null;
-    this.status = data.status ?? "active";
+    this.status = data.status ?? data.userId ? "active" : "pending";
   }
 
-  async invite({ email, userId, teamId, role }) {
-    const identifier = userId ? { userId } : { email };
-    const data = {
-      ...identifier,
-      teamId,
-      role,
-      status: "pending",
-    };
-    return await this.add(data);
+  async invite() {
+    const data = { ...this, status: "pending" };
+    delete data.id;
+    await this.repository.updateOne(
+      { _id: this.id },
+      { $set: data },
+      { upsert: true }
+    );
+    return this;
   }
 
-  async accept({ email, userId, teamId }) {
-    const identifier = userId ? { userId } : { email };
-    const { id: membershipId } = await this.findOne({ ...identifier, teamId });
-
-    if (!membershipId) {
-      return null;
-    }
-    const data = {
-      userId,
-      status: "active",
-    };
-    return await this.update({ id: membershipId }, data);
+  async accept() {
+    const data = { ...this, status: "active" };
+    delete data.id;
+    await this.repository.updateOne(
+      { _id: this.id },
+      { $set: data },
+      { upsert: true }
+    );
+    return this;
   }
 
-  async reject({ email, userId, teamId }) {
-    const identifier = userId ? { userId } : { email };
-    const { id: membershipId } = await this.findOne({ ...identifier, teamId });
-
-    if (!membershipId) {
-      return null;
-    }
-    const data = {
-      userId,
-      status: "rejected",
-    };
-    return await this.update({ id: membershipId }, data);
-  }
-
-  async getOne({ membershipId, email, userId, teamId }) {
-    const query = membershipId ? { id: membershipId } : {};
-    if (userId) {
-      identifier.userId = userId;
-    } else if (email) {
-      identifier.email = email;
-    }
-    if (teamId) {
-      query.teamId = teamId;
-    }
-    return await this.findOne(query);
-  }
-
-  async getMany({ email, userId, teamId }) {
-    const query = {};
-    if (userId) {
-      identifier.userId = userId;
-    } else if (email) {
-      identifier.email = email;
-    }
-    if (teamId) {
-      query.teamId = teamId;
-    }
-    return await this.findAll(query);
+  async reject() {
+    const data = { ...this, status: "rejected" };
+    delete data.id;
+    await this.repository.updateOne(
+      { _id: this.id },
+      { $set: data },
+      { upsert: true }
+    );
+    return this;
   }
 }
+
+export class MembershipFactory extends BaseFactory {
+  createMembership(data) {
+    return new Membership({ ...data, repository: this.repository });
+  }
+
+  createMemberships(data = []) {
+    return data.map((membership) => this.createMembership(membership));
+  }
+}
+
+export default new MembershipFactory(membershipRepository);

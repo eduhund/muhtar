@@ -1,6 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
 
-import { hashPassword } from "../../../../utils/password.js";
 import { setToken } from "../../../../utils/tokens.js";
 
 export default async function register(req, res, next) {

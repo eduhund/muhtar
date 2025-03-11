@@ -11,9 +11,9 @@ export default class CreateProjectFlow {
     //this.responseAdapter = responseAdapter;
   }
 
-  async execute({ source, title, ...rest }) {
+  async execute({ source, name, ...rest }) {
     try {
-      const newProject = { title };
+      const newProject = { name };
 
       if (source === "Slack") {
         const isProjectExist = await this.projectService.findBySlackId(

@@ -1,7 +1,15 @@
-import { setToken } from "../../../../utils/tokens.js";
-import { verifyPassword } from "../../../../utils/password.js";
+import LoginCommand from "../../../../commands/LoginCommand.js";
+import { loginFlow } from "../../../../flows/index.js";
 
 export default async function login(req, res, next) {
+  try {
+    const { email, password } = req.body;
+    const command = LoginCommand.fromHttp({ email, password });
+    await loginFlow.execute(command);
+    return next({ code: 0 });
+  } catch (e) {
+    return next({ code: 20204, trace: e });
+  }
   try {
     /*
     const { email, password } = req.body;

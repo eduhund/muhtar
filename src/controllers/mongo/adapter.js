@@ -1,14 +1,24 @@
+import { getProjection } from "./utils";
+
 export default class MongoAdapter {
   constructor(db) {
     this.db = db;
   }
 
-  async findOne(collection, query) {
-    return await this.db.collection(collection).findOne(query);
+  async findOne(collection, query, returns) {
+    const data = await this.db
+      .collection(collection)
+      .findOne(query, { projecion: getProjection(returns) });
+
+    return data ? this.normalize(data) : null;
   }
 
-  async findMany(collection, query) {
-    return await this.db.collection(collection).findMany(query);
+  async findMany(collection, query, returns) {
+    const data = await this.db
+      .collection(collection)
+      .findMany(query, { projecion: getProjection(returns) });
+
+    return data.map(this.normalize);
   }
 
   async insertOne(collection, doc) {
@@ -21,5 +31,11 @@ export default class MongoAdapter {
 
   async deleteOne(collection, id) {
     await this.db.collection(collection).deleteOne({ id });
+  }
+
+  normalize(document) {
+    if (!document) return null;
+    const { _id, ...rest } = document;
+    return { id: _id.toString(), ...rest };
   }
 }

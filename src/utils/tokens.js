@@ -13,14 +13,11 @@ export function checkToken(token) {
   return tokens?.[token];
 }
 
-export function setToken({ userId }, data) {
+export function setToken(userId) {
   const aceessToken = createToken();
   tokens[aceessToken] = {
     userId,
-    ip: data?.ip,
     ts: Date.now(),
-    userAgent: data?.userAgent,
-    geo: data?.geo,
   };
   writeFile("/temp/", "tokens.json", tokens);
   return aceessToken;

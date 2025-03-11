@@ -1,7 +1,5 @@
-export function getProjection(returns) {
-  const projection = {
-    _id: 0,
-  };
+export function getProjection(returns = []) {
+  const projection = {};
   for (const param of returns) {
     projection[param] = 1;
   }
