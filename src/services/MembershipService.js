@@ -1,25 +1,23 @@
-export default class MembershipService {
-  constructor(membershipRepository) {
-    this.membershipRepository = membershipRepository;
-  }
+import Service from "./Service.js";
 
+export default class MembershipService extends Service {
   static async createMembership(data) {
-    return await this.membershipRepository.create(data);
+    return await this.repository.create(data);
   }
 
   static async getMembershipById(id) {
-    return await this.membershipRepository.findById(id);
+    return await this.repository.findById(id);
   }
 
   static async getMembershipBySlackId(userId, teamId) {
-    return await this.membershipRepository.findBySlackId(userId, teamId);
+    return await this.repository.findBySlackId(userId, teamId);
   }
 
   static async getMembershipsByTeam(teamId) {
-    return await this.membershipRepository.findAllByTeamId(teamId);
+    return await this.repository.findAllByTeamId(teamId);
   }
 
   static async getMembershipsByUser(userId) {
-    return this.membershipRepository.findAllByUser(userId);
+    return this.repository.findAllByUser(userId);
   }
 }

@@ -1,17 +1,15 @@
-export default class TeamService {
-  constructor(teamRepository) {
-    this.teamRepository = teamRepository;
-  }
+import Service from "./Service.js";
 
+export default class TeamService extends Service {
   static async createTeam(data) {
-    return await this.teamRepository.create(data);
+    return await this.repository.create(data);
   }
 
   static async getTeamById(id) {
-    return await this.teamRepository.findById(id);
+    return await this.repository.findById(id);
   }
 
   static async getTeamBySlackId(slackId) {
-    return this.teamRepository.findOne({ "slack.teamId": slackId });
+    return this.repository.findOne({ "slack.teamId": slackId });
   }
 }

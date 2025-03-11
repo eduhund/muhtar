@@ -2,12 +2,12 @@ import BaseModel from "./BaseModel.js";
 import { hash } from "../utils/hash.js";
 
 export default class User extends BaseModel {
-  constructor({ id, firstName, lastName, email, createdAt }) {
+  constructor(data) {
     super(data);
-    this.firstName = firstName ?? "";
-    this.lastName = lastName ?? "";
-    this.email = email ?? "";
-    this.createdAt = createdAt ?? new Date();
+    this.firstName = data.firstName ?? "";
+    this.lastName = data.lastName ?? "";
+    this.email = data.email ?? "";
+    this.createdAt = data.createdAt ?? new Date();
   }
 
   getFullName() {

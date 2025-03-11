@@ -5,28 +5,8 @@ export default async function login(req, res, next) {
   try {
     const { email, password } = req.body;
     const command = LoginCommand.fromHttp({ email, password });
-    await loginFlow.execute(command);
-    return next({ code: 0 });
-  } catch (e) {
-    return next({ code: 20204, trace: e });
-  }
-  try {
-    /*
-    const { email, password } = req.body;
-    const user = await getUser({ email });
-
-    if (!user) {
-      return next({ code: 10101 });
-    }
-
-    const isValidPassword = await verifyPassword(password, user.password);
-
-    if (!isValidPassword) {
-      return next({ code: 10102 });
-    }
-    const accessToken = setToken(newUser, req);
+    const accessToken = await loginFlow.execute(command);
     return next({ code: 0, content: { accessToken } });
-    */
   } catch (e) {
     return next({ code: 20201, trace: e });
   }

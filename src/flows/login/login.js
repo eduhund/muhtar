@@ -13,12 +13,7 @@ export default class LoginFlow {
     const user = await this.userService.getUserByEmail(email);
     if (!user) throw new Error("User not found");
 
-    console.log(password, user);
-
-    const isValid = await this.authService.verifyPassword(
-      password,
-      user.password
-    );
+    const isValid = await this.authService.verifyPassword(user.id, password);
     if (!isValid) throw new Error("Invalid password");
 
     return this.authService.generateToken(user);
