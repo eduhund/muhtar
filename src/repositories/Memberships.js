@@ -1,50 +1,33 @@
-import { v4 as uuidv4 } from "uuid";
-import Membership from "../models/Membership.js";
-
 export default class Memberships {
   constructor(adapter) {
     this.adapter = adapter;
   }
 
   async findById(id) {
-    const data = await this.adapter.findOne("memberships", { id });
-    return data ? new Team(data) : null;
+    return this.adapter.findOne("memberships", { id });
   }
 
   async findBySlackId(userId, teamId) {
-    const data = await this.adapter.findOne("memberships", {
+    return this.adapter.findOne("memberships", {
       "slack.userId": userId,
       "slack.teamId": teamId,
     });
-    return data ? new Team(data) : null;
   }
 
   async findAllByEmail(email) {
-    const data = await this.adapter.findMany("memberships", { email });
-    return data.map((membership) => new this(membership));
+    return this.adapter.findMany("memberships", { email });
   }
 
   async findAllByUser(userId) {
-    const data = await this.adapter.findMany("memberships", { userId });
-    return data.map((membership) => new this(membership));
+    return this.adapter.findMany("memberships", { userId });
   }
 
   async findAllByTeam(teamId) {
-    const data = await this.adapter.findMany("memberships", { teamId });
-    return data.map((membership) => new this(membership));
+    return this.adapter.findMany("memberships", { teamId });
   }
 
-  static async create({ email, userId, role, status }) {
-    const id = uuidv4();
-    const membership = new Membership({
-      id,
-      email,
-      userId,
-      role,
-      status,
-      ts: Date.now(),
-    });
-    return membership;
+  async create(membership) {
+    return this.adapter.insertOne("memberships", membership);
   }
 
   async save(membership) {

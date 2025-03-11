@@ -1,23 +1,36 @@
+import { v4 as uuidv4 } from "uuid";
 import Service from "./Service.js";
+import Membership from "../models/Membership.js";
 
 export default class MembershipService extends Service {
   static async createMembership(data) {
-    return await this.repository.create(data);
+    const id = uuidv4();
+    const membership = new Membership({
+      id,
+      ...data,
+      ts: Date.now(),
+    });
+    await this.repository.create(membership);
+    return membership;
   }
 
   static async getMembershipById(id) {
-    return await this.repository.findById(id);
+    const data = await this.repository.findById(id);
+    return data ? new Membership(data) : null;
   }
 
   static async getMembershipBySlackId(userId, teamId) {
-    return await this.repository.findBySlackId(userId, teamId);
+    const data = await this.repository.findBySlackId(userId, teamId);
+    return data ? new Membership(data) : null;
   }
 
   static async getMembershipsByTeam(teamId) {
-    return await this.repository.findAllByTeamId(teamId);
+    const data = await this.repository.findAllByTeamId(teamId);
+    return data.map((membership) => new Membership(membership));
   }
 
   static async getMembershipsByUser(userId) {
-    return this.repository.findAllByUser(userId);
+    const data = await this.repository.findAllByUser(userId);
+    return data.map((membership) => new Membership(membership));
   }
 }
