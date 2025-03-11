@@ -1,34 +1,21 @@
-import { v4 as uuidv4 } from "uuid";
-import Project from "../models/Project.js";
-
 export default class Projects {
   constructor(adapter) {
     this.adapter = adapter;
   }
 
   async findById(id) {
-    const data = await this.adapter.findOne("projects", { id });
-    return data ? new Project(data) : null;
+    return this.adapter.findOne("projects", { id });
   }
 
   async findAllByTeam(teamId) {
-    const data = await this.adapter.findMany("projects", { teamId });
-    return data.map((project) => new Project(project));
+    return this.adapter.findMany("projects", { teamId });
   }
 
-  async create({ name, creatorId, teamId }) {
-    const project = new Project({
-      id: uuidv4(),
-      name,
-      creatorId,
-      teamId,
-      createdAt: new Date(),
-    });
-    await this.adapter.insertOne("projects", project);
-    return project;
+  async create(project) {
+    return this.adapter.insertOne("projects", project);
   }
 
   async save(project) {
-    await this.adapter.updateOne("projects", project);
+    return this.adapter.updateOne("projects", project);
   }
 }
