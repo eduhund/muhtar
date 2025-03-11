@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 import Time from "../models/Time.js";
 
-export default class TimeRepository {
+export default class Times {
   constructor(adapter) {
     this.adapter = adapter;
   }
@@ -31,6 +31,10 @@ export default class TimeRepository {
       date: { $gte: from, $lt: to },
     });
     return data.map((time) => new Time(time));
+  }
+
+  async save(time) {
+    await this.adapter.updateOne("timetracker", time);
   }
 
   static async create({

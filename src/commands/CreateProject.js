@@ -1,23 +1,23 @@
 export default class CreateProjectCommand {
-  constructor({ source, title, ...rest }) {
+  constructor({ source, name, ...rest }) {
     this.source = source;
-    this.title = title;
+    this.name = name;
     Object.assign(this, rest);
   }
 
-  static fromHttp({ title, teamId, userId }) {
+  static fromHttp({ name, teamId, userId }) {
     return new CreateProjectCommand({
       source: "API",
-      title,
+      name,
       teamId,
       userId,
     });
   }
 
-  static fromSlack({ title, user, channel }) {
+  static fromSlack({ name, user, channel }) {
     return new CreateProjectCommand({
       source: "Slack",
-      title,
+      name,
       slackData: {
         userId: user,
         channelId: channel,
@@ -25,10 +25,10 @@ export default class CreateProjectCommand {
     });
   }
 
-  static fromTelegram({ title, user_id }) {
+  static fromTelegram({ name, user_id }) {
     return new CreateProjectCommand({
       source: "Telegram",
-      title,
+      name,
       telegramData: { userId: user_id || null },
     });
   }

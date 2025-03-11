@@ -6,16 +6,16 @@ import TimeService from "./TimeService.js";
 import UserService from "./UserService.js";
 
 import {
-  membershipRepository,
-  projectRepository,
-  teamRepository,
-  timeRepository,
-  userRepository,
+  memberships,
+  projects,
+  teams,
+  times,
+  users,
 } from "../repositories/index.js";
 
-export const membershipService = new MembershipService(membershipRepository);
-export const projectService = new ProjectService(projectRepository);
-export const teamService = new TeamService(teamRepository);
-export const timeService = new TimeService(timeRepository);
-export const userService = new UserService(userRepository, membershipService);
+export const membershipService = new MembershipService(memberships);
+export const projectService = new ProjectService(projects);
+export const teamService = new TeamService(teams);
+export const timeService = new TimeService(times);
+export const userService = new UserService(users, membershipService);
 export const authService = new AuthService(userService);

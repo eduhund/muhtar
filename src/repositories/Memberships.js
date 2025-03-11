@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 import Membership from "../models/Membership.js";
 
-export default class MembershipRepository {
+export default class Memberships {
   constructor(adapter) {
     this.adapter = adapter;
   }
@@ -36,7 +36,7 @@ export default class MembershipRepository {
 
   static async create({ email, userId, role, status }) {
     const id = uuidv4();
-    const team = new Membership({
+    const membership = new Membership({
       id,
       email,
       userId,
@@ -44,7 +44,44 @@ export default class MembershipRepository {
       status,
       ts: Date.now(),
     });
-    await team.save();
-    return team;
+    return membership;
+  }
+
+  async save(membership) {
+    await this.adapter.updateOne("memberships", membership);
+    return;
+  }
+
+  async invite(membership) {
+    const data = { ...membership, status: "pending" };
+    delete data.id;
+    await this.adapter.updateOne(
+      { _id: this.id },
+      { $set: data },
+      { upsert: true }
+    );
+    return;
+  }
+
+  async accept(membership) {
+    const data = { ...membership, status: "active" };
+    delete data.id;
+    await this.adapter.updateOne(
+      { _id: this.id },
+      { $set: data },
+      { upsert: true }
+    );
+    return;
+  }
+
+  async reject(membership) {
+    const data = { ...membership, status: "rejected" };
+    delete data.id;
+    await this.adapter.updateOne(
+      { _id: this.id },
+      { $set: data },
+      { upsert: true }
+    );
+    return this;
   }
 }

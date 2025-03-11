@@ -1,4 +1,4 @@
-import { getProjection } from "./utils";
+import { getProjection } from "./utils.js";
 
 export default class MongoAdapter {
   constructor(db) {
@@ -22,11 +22,15 @@ export default class MongoAdapter {
   }
 
   async insertOne(collection, doc) {
-    await this.db.collection(collection).insertOne(doc);
+    const { id, ...data } = doc;
+    await this.db.collection(collection).insertOne({ _id: id, ...data });
   }
 
-  async updateOne(collection, id, update) {
-    await this.db.collection(collection).updateOne({ id }, { $set: update });
+  async updateOne(collection, newDoc) {
+    const { id, ...update } = newDoc;
+    await this.db
+      .collection(collection)
+      .updateOne({ _id: id }, { $set: update });
   }
 
   async deleteOne(collection, id) {

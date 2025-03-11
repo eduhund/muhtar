@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 import Team from "../models/Team.js";
 
-export default class TeamRepository {
+export default class Teams {
   constructor(adapter) {
     this.adapter = adapter;
   }
@@ -9,6 +9,10 @@ export default class TeamRepository {
   async findById(id) {
     const data = await this.adapter.findOne("teams", { id });
     return data ? new Team(data) : null;
+  }
+
+  async save(team) {
+    await this.adapter.updateOne("teams", team);
   }
 
   static async create({ name, creatorId }) {
@@ -19,7 +23,6 @@ export default class TeamRepository {
       creatorId,
       createdAt: new Date(),
     });
-    await team.save();
     return team;
   }
 }

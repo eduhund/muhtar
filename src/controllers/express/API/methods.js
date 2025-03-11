@@ -29,7 +29,7 @@ export const privateMethods = [
     method: "post",
     path: "/createProject",
     handler: createProject,
-    required: ["title", "teamId"],
+    required: ["name", "teamId"],
   },
 ];
 
