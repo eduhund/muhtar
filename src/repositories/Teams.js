@@ -7,7 +7,7 @@ export default class Teams {
   }
 
   static async create(team) {
-    return this.adapter.insertOne("projects", project);
+    return this.adapter.insertOne("teams", team);
   }
 
   async findById(id) {

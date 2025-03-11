@@ -20,6 +20,6 @@ export default class Users {
   }
 
   async save(user) {
-    await this.adapter.updateOne("users", user);
+    return this.adapter.updateOne("users", user);
   }
 }
