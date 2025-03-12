@@ -48,8 +48,10 @@ export default class UserService extends Service {
     return this.repository.update(userId, { password: hashedPassword });
   }
 
-  async getUserBySlackId(slackId) {
-    const data = await this.repository.findOne({ "slack.userId": slackId });
+  async getUserBySlackId(userId, teamId) {
+    const data = await this.repository.findOne({
+      connections: { slack: { userId, teamId } },
+    });
     return data ? new User(data) : null;
   }
 

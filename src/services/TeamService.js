@@ -4,7 +4,7 @@ import Service from "./Service.js";
 import Team from "../models/Team.js";
 
 export default class TeamService extends Service {
-  static async createTeam(data) {
+  async createTeam(data) {
     const id = uuidv4();
     const team = new Team({
       id,
@@ -15,12 +15,19 @@ export default class TeamService extends Service {
     return team;
   }
 
-  static async getTeamById(id) {
+  async connectTeamToSlack(teamId, slackData) {
+    const data = await this.repository.update(teamId, {
+      "connections.slack": slackData,
+    });
+    return data ? new Team(data) : null;
+  }
+
+  async getTeamById(id) {
     const data = await this.repository.findById(id);
     return data ? new Team(data) : null;
   }
 
-  static async getTeamBySlackId(slackId) {
+  async getTeamBySlackId(slackId) {
     const data = await this.repository.findOne({ "slack.teamId": slackId });
     return data ? new Team(data) : null;
   }

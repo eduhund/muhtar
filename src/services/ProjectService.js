@@ -14,6 +14,13 @@ export default class ProjectService extends Service {
     return project;
   }
 
+  async connectProjectToSlack(projectId, { channelId, teamId }) {
+    const data = await this.repository.update(projectId, {
+      "connections.slack": { channelId, teamId },
+    });
+    return data ? new Membership(data) : null;
+  }
+
   async getProjectById(id) {
     const data = await this.repository.findById(id);
     return data ? new Project(data) : null;
@@ -21,7 +28,7 @@ export default class ProjectService extends Service {
 
   async getProjectBySlackId(channelId) {
     const data = await this.repository.findOne({
-      "slack.channelId": channelId,
+      "connections.slack.channelId": channelId,
     });
     return data ? new Project(data) : null;
   }

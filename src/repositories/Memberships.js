@@ -13,8 +13,9 @@ export default class Memberships {
 
   async findBySlackId(userId, teamId) {
     return this.adapter.findOne("memberships", {
-      "slack.userId": userId,
-      "slack.teamId": teamId,
+      connections: {
+        slack: { userId, teamId },
+      },
     });
   }
 

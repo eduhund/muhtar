@@ -1,3 +1,6 @@
+import { getChannelInfo } from "../controllers/slack/actions/index.js";
+import { membershipService } from "../services/index.js";
+
 export default class CreateProjectCommand {
   constructor({ source, name, ...rest }) {
     this.source = source;
@@ -14,13 +17,31 @@ export default class CreateProjectCommand {
     });
   }
 
-  static fromSlack({ name, user, channel }) {
+  static async fromSlack({ user, channel, team, inviter }) {
+    const channelName = await getChannelInfo(channel);
+    const userData = await membershipService.getMembershipBySlackId(user, team);
+
+    const inviterData = await membershipService.getMembershipBySlackId(
+      inviter,
+      team
+    );
+
+    if (!userData || !inviterData) {
+      throw new Error("Can't find the Slack connection of the user");
+    }
+
+    const { userId, teamId } = userData;
+    const { userId: inviterId } = inviterData;
+
     return new CreateProjectCommand({
       source: "Slack",
-      name,
+      name: channelName,
+      teamId,
+      userId,
+      inviterId,
       slackData: {
-        userId: user,
         channelId: channel,
+        teamId: team,
       },
     });
   }

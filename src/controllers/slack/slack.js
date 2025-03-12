@@ -75,8 +75,9 @@ slack.event("member_joined_channel", async ({ event }) => {
     return;
   }
   log.debug("Slack — Bot added to new channel: ", event);
-  const command = CreateProjectCommand.fromSlack(event);
-  await createProjectFlow.execute(command);
+  const command = await CreateProjectCommand.fromSlack(event);
+  console.log(command);
+  //await createProjectFlow.execute(command);
 });
 
 slack.event("team_join", async ({ event }) => {
