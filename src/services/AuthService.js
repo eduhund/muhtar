@@ -1,4 +1,4 @@
-import { hash, compare } from "../utils/hash.js";
+import { compare } from "../utils/hash.js";
 import { setToken } from "../utils/tokens.js";
 import Service from "./Service.js";
 
@@ -16,17 +16,15 @@ export default class AuthService extends Service {
     const user = await this.userService.getUserById(userId);
     if (!user) throw new Error("User not found");
 
-    const isMatch = await compare(oldPassword, user.password);
+    const isMatch = await compare(oldPassword, user.getPassword());
     if (!isMatch) throw new Error("Incorrect old password");
 
-    const hashedPassword = await hash(newPassword);
-
-    await this.userService.updatePassword(userId, hashedPassword);
+    await user.changePassword(newPassword);
 
     return { message: "Password changed successfully" };
   }
 
   generateToken(user) {
-    return setToken(user.userId);
+    return setToken(user._id);
   }
 }

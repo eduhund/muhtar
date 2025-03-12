@@ -11,35 +11,26 @@ export default class CreateProjectFlow {
     //this.responseAdapter = responseAdapter;
   }
 
-  async execute({ source, name, ...rest }) {
+  async execute({ source, name, teamId, creator, ...rest }) {
     try {
-      const newProject = { name };
+      const newProject = { name, teamId, creator };
 
       if (source === "Slack") {
-        const isProjectExist = await this.projectService.findBySlackId(
-          rest.slackData.channelId,
-          rest.slackData.teamId
+        const { slackData } = rest;
+        const isProjectExist = await this.projectService.getProjectBySlackId(
+          slackData.channelId,
+          slackData.teamId
         );
 
-        /*
         if (isProjectExist) {
-          this.responseAdapter.send(source, "Project already exist!");
-          return;
+          //this.responseAdapter.send(source, "Project already exist!");
+          throw new Error("Project already exist");
         }
-        */
-
-        const { userId, teamId } = this.membershipService.findBySlackId(
-          rest.slackData.userId,
-          teamId
-        );
-
-        newProject.teamId = teamId;
-        newProject.creatorId = userId;
+        newProject.connections = {
+          slack: { ...slackData },
+        };
       } else if (source === "Telegram") {
         log.info("to-do");
-      } else {
-        newProject.teamId = rest.teamId;
-        newProject.creatorId = rest.userId;
       }
       const project = await this.projectService.createProject(newProject);
 

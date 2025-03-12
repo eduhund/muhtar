@@ -3,10 +3,11 @@ import { hash } from "../utils/hash.js";
 
 export default class User extends BaseModel {
   constructor(data) {
-    super(data);
+    super(data._id, "users");
     this.firstName = data.firstName ?? "";
     this.lastName = data.lastName ?? "";
     this.email = data.email ?? "";
+    this._password = data._password ?? null;
     this.createdAt = data.createdAt ?? new Date();
   }
 
@@ -18,19 +19,26 @@ export default class User extends BaseModel {
     return fullName;
   }
 
-  async changeEmail(newEmail) {
+  getPassword() {
+    return this._password;
+  }
+
+  changeEmail(newEmail) {
     this.email = newEmail;
+    this.saveChanges("email");
     return this;
   }
 
-  async changeName(firstName, lastName) {
+  changeName(firstName, lastName) {
     this.firstName = firstName ? firstName : this.firstName;
     this.lastName = lastName ? lastName : this.lastName;
+    this.saveChanges(["firstName", "lastName"]);
     return this;
   }
 
   async changePassword(newPassword) {
-    this.password = await hash(newPassword);
+    this._password = await hash(newPassword);
+    this.saveChanges("_password");
     return this;
   }
 }

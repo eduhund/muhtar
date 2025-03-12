@@ -5,30 +5,22 @@ import Team from "../models/Team.js";
 
 export default class TeamService extends Service {
   async createTeam(data) {
-    const id = uuidv4();
     const team = new Team({
-      id,
+      _id: uuidv4(),
       ...data,
       createdAt: new Date(),
     });
-    await this.repository.create(team);
+    team.saveChanges();
     return team;
   }
 
-  async connectTeamToSlack(teamId, slackData) {
-    const data = await this.repository.update(teamId, {
-      "connections.slack": slackData,
-    });
+  async getTeamById(_id) {
+    const data = await this._findOne({ _id });
     return data ? new Team(data) : null;
   }
 
-  async getTeamById(id) {
-    const data = await this.repository.findById(id);
-    return data ? new Team(data) : null;
-  }
-
-  async getTeamBySlackId(slackId) {
-    const data = await this.repository.findOne({ "slack.teamId": slackId });
+  async getTeamBySlackId(teamId) {
+    const data = await this._findOne({ "connections.slack.teamId": teamId });
     return data ? new Team(data) : null;
   }
 }

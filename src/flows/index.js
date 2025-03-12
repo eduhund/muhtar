@@ -3,7 +3,7 @@ import LoginFlow from "./login/login.js";
 
 import {
   authService,
-  membershipService,
+  memberships,
   projectService,
   userService,
 } from "../services/index.js";
@@ -17,7 +17,7 @@ export * from "./getLastTime/getLastTime.js";
 
 export const createProjectFlow = new CreateProjectFlow({
   projectService,
-  membershipService,
+  membershipService: memberships,
 });
 
 export const loginFlow = new LoginFlow({ userService, authService });

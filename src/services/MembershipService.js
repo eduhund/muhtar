@@ -5,41 +5,35 @@ import Membership from "../models/Membership.js";
 
 export default class MembershipService extends Service {
   async createMembership(data) {
-    const id = uuidv4();
     const membership = new Membership({
-      id,
+      _id: uuidv4(),
       ...data,
-      ts: Date.now(),
+      createdAt: new Date(),
     });
-    await this.repository.create(membership);
+    membership.saveChanges();
     return membership;
   }
 
-  async connectMembershipToSlack(membershipId, { userId, teamId }) {
-    const data = await this.repository.update(membershipId, {
-      "connections.slack": { userId, teamId },
-    });
-    return data ? new Membership(data) : null;
-  }
-
-  async getMembershipById(id) {
-    const data = await this.repository.findById(id);
+  async getMembershipById(_id) {
+    const data = await this._findOne({ _id });
     return data ? new Membership(data) : null;
   }
 
   async getMembershipBySlackId(userId, teamId) {
-    const data = await this.repository.findBySlackId(userId, teamId);
-    console.log(data);
+    const data = await this._findOne({
+      "connections.slack.userId": userId,
+      "connections.slack.teamId": teamId,
+    });
     return data ? new Membership(data) : null;
   }
 
   async getMembershipsByTeam(teamId) {
-    const data = await this.repository.findAllByTeamId(teamId);
+    const data = await this._findMany({ teamId });
     return data.map((membership) => new Membership(membership));
   }
 
   async getMembershipsByUser(userId) {
-    const data = await this.repository.findAllByUser(userId);
+    const data = await this._findMany({ userId });
     return data.map((membership) => new Membership(membership));
   }
 }

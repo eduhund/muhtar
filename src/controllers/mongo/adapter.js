@@ -6,40 +6,29 @@ export default class MongoAdapter {
   }
 
   async findOne(collection, query, returns) {
-    const data = await this.db
-      .collection(collection)
-      .findOne(query, { projecion: getProjection(returns) });
-
-    return data ? this.normalize(data) : null;
+    return this.db.collection(collection).findOne(query, {
+      projecion: getProjection(returns),
+    });
   }
 
   async findMany(collection, query, returns) {
-    const data = await this.db
+    return this.db
       .collection(collection)
-      .findMany(query, { projecion: getProjection(returns) });
-
-    return data.map(this.normalize);
+      .find(query, {
+        projecion: getProjection(returns),
+      })
+      .toArray();
   }
 
-  async insertOne(collection, doc) {
-    const { id, ...data } = doc;
-    await this.db.collection(collection).insertOne({ _id: id, ...data });
+  async insert(collection, doc) {
+    await this.db.collection(collection).insertOne(doc);
   }
 
-  async updateOne(collection, newDoc) {
-    const { id, ...update } = newDoc;
-    await this.db
-      .collection(collection)
-      .updateOne({ _id: id }, { $set: update });
+  async update(collection, _id, update) {
+    await this.db.collection(collection).updateOne({ _id }, { $set: update });
   }
 
-  async deleteOne(collection, id) {
+  async delete(collection, id) {
     await this.db.collection(collection).deleteOne({ id });
-  }
-
-  normalize(document) {
-    if (!document) return null;
-    const { _id, ...rest } = document;
-    return { id: _id.toString(), ...rest };
   }
 }

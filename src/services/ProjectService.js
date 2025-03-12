@@ -6,35 +6,29 @@ import Project from "../models/Project.js";
 export default class ProjectService extends Service {
   async createProject(data) {
     const project = new Project({
-      id: uuidv4(),
+      _id: uuidv4(),
       ...data,
       createdAt: new Date(),
     });
-    await this.repository.create(project);
+    project.saveChanges();
     return project;
   }
 
-  async connectProjectToSlack(projectId, { channelId, teamId }) {
-    const data = await this.repository.update(projectId, {
-      "connections.slack": { channelId, teamId },
-    });
-    return data ? new Membership(data) : null;
-  }
-
-  async getProjectById(id) {
-    const data = await this.repository.findById(id);
+  async getProjectById(_id) {
+    const data = await this._findOne({ _id });
     return data ? new Project(data) : null;
   }
 
-  async getProjectBySlackId(channelId) {
-    const data = await this.repository.findOne({
+  async getProjectBySlackId(channelId, teamId) {
+    const data = await this._findOne({
       "connections.slack.channelId": channelId,
+      "connections.slack.teamId": teamId,
     });
     return data ? new Project(data) : null;
   }
 
   async getProjectsByTeam(teamId) {
-    const data = await this.repository.findByTeamId(teamId);
+    const data = await this._findMany({ teamId });
     return data.map((project) => new Project(project));
   }
 }
