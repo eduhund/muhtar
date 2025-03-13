@@ -5,7 +5,7 @@ import Service from "./Service.js";
 export default class AuthService extends Service {
   constructor(services) {
     super();
-    this.userService = services.userService;
+    this.userService = services.users;
   }
   async verifyPassword(userId, inputPassword) {
     const { password } = await this.userService.getUserCredentials(userId);

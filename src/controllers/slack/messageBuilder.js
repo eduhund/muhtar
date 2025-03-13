@@ -166,11 +166,12 @@ export function timeSuccess({ userId, projectId }) {
 export function addToExistProject({ channelId }) {
   return {
     channel: channelId,
-    text: "Woff! Я уже знаю про этот проект 🙃",
+    text: `Woff! Я уже знаю про этот проект 🙃`,
   };
 }
 
-export function addNewProject({ channelId, name }) {
+export function addNewProject({ name, connections }) {
+  const { channelId } = connections?.slack;
   return {
     channel: channelId,
     text: `Всем привет! Теперь мне можно рассказывать про часы на проекте ${name}\n\n А еще вот команды, которые я понимаю:\n/rename [new_name] — переименует проект в списке проектов\n/subprj -add [subprj_name] | -remove [subprj_name] | -list — поможет настроить подпроекты (для более точного учета часов)`,

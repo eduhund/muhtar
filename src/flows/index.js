@@ -4,8 +4,8 @@ import LoginFlow from "./login/login.js";
 import {
   authService,
   memberships,
-  projectService,
-  userService,
+  projects,
+  users,
 } from "../services/index.js";
 
 export * from "./renderModal/renderModal.js";
@@ -16,8 +16,8 @@ export * from "./renameProject/renameProject.js";
 export * from "./getLastTime/getLastTime.js";
 
 export const createProjectFlow = new CreateProjectFlow({
-  projectService,
-  membershipService: memberships,
-});
+  projects,
+  memberships,
+}).execute;
 
-export const loginFlow = new LoginFlow({ userService, authService });
+export const loginFlow = new LoginFlow({ users, authService }).execute;

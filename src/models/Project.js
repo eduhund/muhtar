@@ -35,4 +35,19 @@ export default class Project extends BaseModel {
         return this;
     }
   }
+
+  toString() {
+    return this.name;
+  }
+
+  toJSON() {
+    return {
+      _id: this._id,
+      name: this.name,
+      description: this.description,
+      creator: this.creator,
+      teamId: this.teamId,
+      connections: this.connections,
+    };
+  }
 }

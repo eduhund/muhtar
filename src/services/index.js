@@ -7,8 +7,9 @@ import TimeService from "./TimeService.js";
 import UserService from "./UserService.js";
 
 export const memberships = new MembershipService(adapter, "memberships");
-export const projectService = new ProjectService(adapter, "projects");
-export const teamService = new TeamService(adapter, "teams");
-export const timeService = new TimeService(adapter, "timetracker");
-export const userService = new UserService(adapter, "users", { memberships });
-export const authService = new AuthService({ userService });
+export const projects = new ProjectService(adapter, "projects");
+export const teams = new TeamService(adapter, "teams");
+export const timetracker = new TimeService(adapter, "timetracker");
+export const users = new UserService(adapter, "users", { memberships });
+
+export const authService = new AuthService({ users });

@@ -12,24 +12,4 @@ export default class LoginCommand {
       password,
     });
   }
-
-  // TO-DO
-  static fromSlack({ title, user, channel }) {
-    return new LoginCommand({
-      source: "Slack",
-      title,
-      slackData: {
-        userId: user,
-        channelId: channel,
-      },
-    });
-  }
-
-  static fromTelegram({ title, user_id }) {
-    return new LoginCommand({
-      source: "Telegram",
-      title,
-      telegramData: { userId: user_id || null },
-    });
-  }
 }

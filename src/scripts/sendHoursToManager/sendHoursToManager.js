@@ -1,19 +1,19 @@
 import { sendMessage } from "../../controllers/slack/actions/index.js";
-import { timeService, userService } from "../../services/index.js";
+import { timetracker, users } from "../../services/index.js";
 import { getPreviousWorkday, isDayWorkday } from "../../utils/isDayOff.js";
 import { dateOnlyIsoString } from "../../utils/date.js";
 
 export async function sendHoursToManager() {
   if (!(await isDayWorkday())) return;
 
-  const freelansers = await userService.getActiveUsers({
+  const freelansers = await users.getActiveUsers({
     contractType: "freelance",
   });
 
   const previusWorkday = getPreviousWorkday();
   const workedHours = [];
 
-  const timeList = await timeService.getTimetableByPeriod(
+  const timeList = await timetracker.getTimetableByPeriod(
     previusWorkday,
     dateOnlyIsoString(new Date())
   );

@@ -16,7 +16,7 @@ export default class BaseModel {
   }
 
   async saveChanges(params) {
-    if (!params) return this._save(this);
+    if (!params) return this._save(this.toJSON());
     if (typeof params === "string")
       return this._save({ [paramName]: this[paramName] });
     if (Array.isArray(params)) {

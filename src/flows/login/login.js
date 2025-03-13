@@ -9,7 +9,7 @@ export default class LoginFlow {
     //this.responseAdapter = responseAdapter;
   }
 
-  async execute({ email, password }) {
+  execute = async ({ email, password }) => {
     const user = await this.userService.getUserByEmail(email);
     if (!user) throw new Error("User not found");
 
@@ -17,5 +17,5 @@ export default class LoginFlow {
     if (!isValid) throw new Error("Invalid password");
 
     return this.authService.generateToken(user);
-  }
+  };
 }

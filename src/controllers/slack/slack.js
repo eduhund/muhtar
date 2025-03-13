@@ -13,6 +13,7 @@ import {
 } from "../../flows/index.js";
 import { prepareData } from "./utils.js";
 import log from "../../utils/log.js";
+import { sendMessage, sendFallback } from "./actions/index.js";
 
 const { App } = bolt;
 
@@ -71,12 +72,26 @@ slack.view("timeModal", async ({ body, ack }) => {
 });
 
 slack.event("member_joined_channel", async ({ event }) => {
-  if (event.user !== SLACK_BOT_ID) {
-    return;
+  try {
+    if (event.user !== SLACK_BOT_ID) {
+      return;
+    }
+
+    log.debug("Slack — Bot added to new channel: ", event);
+
+    const command = await CreateProjectCommand.fromSlack(event);
+    if (!command)
+      return sendMessage("addToExistProject", { channelId: event.channel });
+    const project = await createProjectFlow(command);
+    return sendMessage("addNewProject", project);
+  } catch (e) {
+    console.log(e);
+    await sendFallback(
+      "🚨 Something went wrong...",
+      event.channel,
+      event.inviter
+    );
   }
-  log.debug("Slack — Bot added to new channel: ", event);
-  const command = await CreateProjectCommand.fromSlack(event);
-  await createProjectFlow.execute(command);
 });
 
 slack.event("team_join", async ({ event }) => {

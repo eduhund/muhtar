@@ -1,5 +1,5 @@
 import { getChannelInfo } from "../controllers/slack/actions/index.js";
-import { memberships } from "../services/index.js";
+import { memberships, projects } from "../services/index.js";
 
 export default class CreateProjectCommand {
   constructor({ source, name, ...rest }) {
@@ -26,6 +26,12 @@ export default class CreateProjectCommand {
       throw new Error("Can't find the Slack connection of the user");
     }
 
+    const existedProject = await projects.getProjectBySlackId(channel, team);
+
+    if (existedProject) {
+      return;
+    }
+
     const { userId, teamId } = creatorData;
 
     return new CreateProjectCommand({
@@ -37,14 +43,6 @@ export default class CreateProjectCommand {
         channelId: channel,
         teamId: team,
       },
-    });
-  }
-
-  static fromTelegram({ name, user_id }) {
-    return new CreateProjectCommand({
-      source: "Telegram",
-      name,
-      telegramData: { userId: user_id || null },
     });
   }
 }

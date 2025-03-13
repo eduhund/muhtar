@@ -25,7 +25,9 @@ export default class MongoAdapter {
   }
 
   async update(collection, _id, update) {
-    await this.db.collection(collection).updateOne({ _id }, { $set: update });
+    await this.db
+      .collection(collection)
+      .updateOne({ _id }, { $set: update }, { upsert: true });
   }
 
   async delete(collection, id) {

@@ -51,6 +51,16 @@ const ERRORS = [
     description: "You does not have permission to invite users",
   },
   {
+    code: 10108,
+    type: "invalid_credentials",
+    description: "Project with this id already exist",
+  },
+  {
+    code: 10109,
+    type: "invalid_credentials",
+    description: "This Slack channel is already connected to another project",
+  },
+  {
     code: 20101,
     type: "validate_failure",
     description: "Error in request params validation",
