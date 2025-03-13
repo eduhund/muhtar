@@ -1,6 +1,9 @@
 import bolt from "@slack/bolt";
 
-import { CreateProjectCommand } from "../../commands/index.js";
+import {
+  CreateProjectCommand,
+  AddMembershipToProjectCommand,
+} from "../../commands/index.js";
 
 import {
   renderModal,
@@ -72,25 +75,27 @@ slack.view("timeModal", async ({ body, ack }) => {
 });
 
 slack.event("member_joined_channel", async ({ event }) => {
-  try {
-    if (event.user !== SLACK_BOT_ID) {
-      return;
+  if (event?.user === SLACK_BOT_ID) {
+    try {
+      log.debug("Slack — Bot added to new channel: ", event);
+
+      const command = await CreateProjectCommand.fromSlack(event);
+      if (!command)
+        return sendMessage("addToExistProject", { channelId: event.channel });
+      const project = await createProjectFlow(command);
+      return sendMessage("addNewProject", project);
+    } catch (e) {
+      log.error("Error while adding the project");
+      log.debug(e);
+      sendFallback("🚨 Something went wrong...", event.channel, event.inviter);
     }
-
-    log.debug("Slack — Bot added to new channel: ", event);
-
-    const command = await CreateProjectCommand.fromSlack(event);
+  } else {
+    log.debug("Slack — User added to new channel: ", event);
+    const command = await AddMembershipToProjectCommand.fromSlack(event);
     if (!command)
       return sendMessage("addToExistProject", { channelId: event.channel });
     const project = await createProjectFlow(command);
     return sendMessage("addNewProject", project);
-  } catch (e) {
-    console.log(e);
-    await sendFallback(
-      "🚨 Something went wrong...",
-      event.channel,
-      event.inviter
-    );
   }
 });
 
