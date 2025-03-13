@@ -72,10 +72,9 @@ export async function isDayWorkday(day = Date.now()) {
     const date = dayDate.getDate();
     const month = dayDate.getMonth();
     const year = dayDate.getFullYear();
-    return await isDayOff.date({ date, month, year });
+    return !(await isDayOff.date({ year, month, date }));
   } catch (e) {
     log.error("Error with getting day status: ", e);
-  } finally {
     return true;
   }
 }
